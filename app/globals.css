@@ -1,26 +1,193 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------------------------------------------------------------------------
+   Design tokens.
+
+   Tailwind v4 has no tailwind.config.js — the theme lives here in @theme and
+   every token below becomes a utility (--color-red -> text-red/bg-red,
+   --font-display -> font-display, etc).
+
+   One accent: red. It carries identity and current state (the active dock item,
+   a selection, a company name) as well as every interaction (hover, focus,
+   links, the grid trail). Black, white and red only.
+
+   Plain @theme (not @theme inline) is deliberate: utilities compile to
+   var(--color-x), so the dark block further down can re-point the same tokens
+   at runtime without generating a second set of classes.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-text: #000000;
+  --color-muted: #666666;
+  --color-border: rgba(0, 0, 0, 0.12);
+  --color-fill: #f2f2f2;
+  --color-grid: rgba(0, 0, 0, 0.085);
+  --color-red: #c1121f;
+
+  --font-wordmark: var(--font-rounded), ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --ease-tile: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Dark theme. Same two accents — only the neutrals move.
+   html[data-theme] outranks :root, so these win regardless of source order. */
+html[data-theme="dark"] {
+  --color-bg: #0a0a0a;
+  --color-surface: #121212;
+  --color-text: #ffffff;
+  --color-muted: #999999;
+  --color-border: rgba(255, 255, 255, 0.14);
+  --color-fill: #1a1a1a;
+  --color-grid: rgba(255, 255, 255, 0.09);
+  /* Still deeper than before, but lifted enough to hold contrast on black. */
+  --color-red: #e5342b;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    background-color: var(--color-bg);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-red);
+    color: #ffffff;
+  }
+
+  /* One focus treatment for the whole site, in the accent. */
+  :focus-visible {
+    outline: 2px solid var(--color-red);
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------------------------------------------------------------------------
+   Home page: the canvas.
+
+   Entirely 2D, and now straight on — the grid faces the viewer with no rotation
+   and no foreshortening. There is no `perspective`, no `transform-style:
+   preserve-3d`, no translateZ and no backface culling anywhere on the page.
+
+   Two consequences of dropping the tilt: the stacked name lines are centred on
+   screen as well as in layout (a rotation used to shift the lower line
+   sideways), and the grid squares stay square.
+
+   Below md none of it applies — the plane is a plain padded stack and the grid
+   is hidden (there is no hover on touch).
+--------------------------------------------------------------------------- */
+.iso-plane {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 3.5rem 1.25rem 7rem;
+}
+
+@media (min-width: 768px) {
+  .iso-stage {
+    position: relative;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .iso-plane {
+    display: block;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--plane-w);
+    height: var(--plane-h);
+    /* Rightmost first: rotate the grid, squash it vertically to lay it down,
+       scale the lot, then apply the cursor drift in screen space. --iso-rz and
+       --iso-squash are the tilt knobs; neutralise them (0deg / 1) for a
+       straight-on grid. */
+    transform: translate(-50%, -50%)
+      translate(var(--pan-x, 0px), var(--pan-y, 0px))
+      scale(var(--iso-scale, 0.78)) scaleY(var(--iso-squash, 0.66))
+      rotate(var(--iso-rz, 19deg));
+  }
+
+  .iso-plane > * {
+    position: absolute;
+  }
+
+  /* The grid patch, centred on the plane and so on the name. The radial mask
+     fades it out well before its rectangular edge, so it reads as an island of
+     graph paper rather than a cropped backdrop. */
+  .iso-grid {
+    left: 50%;
+    top: 50%;
+    width: var(--grid-w);
+    height: var(--grid-h);
+    transform: translate(-50%, -50%);
+    -webkit-mask-image: radial-gradient(
+      ellipse at center,
+      #000 28%,
+      transparent 72%
+    );
+    mask-image: radial-gradient(ellipse at center, #000 28%, transparent 72%);
+  }
+
+  .iso-marks {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .iso-cells {
+    display: grid;
+  }
+
+  /* One hover target per grid square. Lights up almost instantly and fades
+     back slowly, so a moving cursor leaves a trail rather than a hard edge. */
+  .iso-cell {
+    border-right: 1px solid var(--color-grid);
+    border-bottom: 1px solid var(--color-grid);
+    background-color: transparent;
+    transition: background-color 700ms var(--ease-tile);
+  }
+
+  /* Only the live squares tint — see isLive() in IsoStage.jsx. */
+  .iso-cell.is-live:hover {
+    background-color: var(--color-red);
+    transition-duration: 40ms;
+  }
+
+  /* The name lies on the plane, tilting and foreshortening with it. Transparent
+     to the pointer so the squares underneath still light up. */
+  .iso-name {
+    left: 50%;
+    top: 50%;
+    width: max-content;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+}
+
+/* --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
 }
