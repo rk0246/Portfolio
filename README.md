@@ -28,7 +28,9 @@ components/
   Preferences.jsx  theme + sound state, MotionConfig
 data/
   nav.js           ← the seven sections the dock is built from.
-  site.js resume.js photos.js projects.js youtube.js
+  site.js resume.js projects.js youtube.js
+lib/
+  unsplash.js      photography: fetches + normalises the Unsplash API
 public/
   resume.pdf  images/{portrait,photos,projects}
 ```
@@ -43,7 +45,7 @@ Everything shipped is a placeholder, marked with `⚠️ PLACEHOLDER` in each da
 | Bio, portrait, hobby blurbs | `data/site.js` → `about` |
 | Roles, dates, impact, skills | `data/resume.js` |
 | Résumé PDF | replace `public/resume.pdf` |
-| Photos + EXIF + captions | `data/photos.js`, files in `public/images/photos/` |
+| Photos + EXIF + captions | the Unsplash account — see [Photography](#photography) |
 | Channel, featured + recent video IDs | `data/youtube.js` |
 | Projects | `data/projects.js`, thumbs in `public/images/projects/` |
 | Email, socials, location | `data/site.js` |
@@ -51,6 +53,56 @@ Everything shipped is a placeholder, marked with `⚠️ PLACEHOLDER` in each da
 The bottom-right HUD readout shows the visitor's own timezone, which the browser
 reports for free. For an actual city ("Last visit from Tampa"), read Vercel's
 `x-vercel-ip-city` header server-side — note that makes `/` dynamic rather than static.
+
+## Photography
+
+The photography page renders whatever is on the Unsplash account
+`ryankim246` — there is no local photo data to maintain. Set a key first:
+
+```bash
+cp .env.example .env.local   # then paste your key from
+                             # https://unsplash.com/oauth/applications
+```
+
+`UNSPLASH_ACCESS_KEY` is read server-side only, in `lib/unsplash.js`. Without
+it the page renders a short notice instead of failing the build.
+
+### It costs two kinds of request
+
+`GET /users/:username/photos` returns *abbreviated* photo objects — the API docs
+are explicit that list responses omit attributes, and `exif` and `location` are
+two of them. Getting the camera settings for the hover overlay therefore needs a
+second call per photo, `GET /photos/:id`. There is no way to get both in one
+request.
+
+The two calls cache on different clocks so this stays cheap:
+
+| Request | Revalidate | Why |
+| --- | --- | --- |
+| the photo list | 1 hour | new uploads should appear the same day |
+| each photo's detail | 24 hours | a published photo's EXIF never changes |
+
+A cold render of a 100-photo account costs about **104 requests** (4 list pages +
+100 details). After that, an hourly revalidation costs only the 4 list pages.
+
+**This matters because of rate limits.** An Unsplash app in Demo mode is capped
+at **50 requests/hour**, which cannot serve that first render — expect a partial
+grid until it is approved for Production (1000/hour). Note also that in
+development Next re-renders pages on every request, so a cold cache plus a few
+refreshes can exhaust a demo key quickly.
+
+### Locations
+
+The filter chips are built from whatever location each photo is tagged with on
+Unsplash — the site has no location data of its own. Untagged photos still
+appear under "All" but get no chip, so tagging happens on unsplash.com.
+
+### Attribution
+
+Unsplash's API Guidelines require attributing the photographer and Unsplash, and
+require that the `urls.*` the API returns are hotlinked rather than copied — the
+latter is why `next.config.mjs` allows `images.unsplash.com` as a remote pattern
+rather than the photos being downloaded into `public/`.
 
 Adding a section: one entry in `data/nav.js` plus `app/<route>/page.js`. The dock
 picks it up automatically.

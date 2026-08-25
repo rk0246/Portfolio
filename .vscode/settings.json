@@ -1,0 +1,9 @@
+{
+  // Cmd+click a localhost link (terminal, editor, README) -> opens in VSCode's
+  // built-in Simple Browser tab instead of an external browser.
+  "workbench.externalUriOpeners": {
+    "localhost:3000": "simpleBrowser.open",
+    "localhost:3001": "simpleBrowser.open",
+    "localhost": "simpleBrowser.open"
+  }
+}
