@@ -18,7 +18,7 @@ export const site = {
       href: "https://linkedin.com/in/",
       handle: "/in/yourhandle",
     },
-    { label: "YouTube", href: "https://youtube.com/", handle: "@yourchannel" },
+    { label: "YouTube", href: "https://youtube.com/@ryankimyt", handle: "@ryankimyt" },
     {
       label: "Instagram",
       href: "https://instagram.com/",

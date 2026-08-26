@@ -76,7 +76,7 @@ export const sections = [
     icon: "youtube",
     inDock: true,
     tile: true,
-    blurb: "Builds, reviews, and long-form rambling",
+    blurb: "Famous scenes, recreated on a $3.01 budget",
     iso: { x: 795, y: 1030, w: 420, h: 300, rz: 5 },
     image: null,
   },
