@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import PhotoFrame from "./PhotoFrame";
+import Lightbox from "./Lightbox";
 
 const ALL = "all";
 
@@ -18,6 +19,8 @@ const ALL = "all";
  */
 export default function PhotoGrid({ photos }) {
   const [active, setActive] = useState(ALL);
+  // Index into `shown`, so arrow keys walk the filtered set, not the whole one.
+  const [openIndex, setOpenIndex] = useState(null);
 
   const locations = useMemo(() => {
     const byslug = new Map();
@@ -41,14 +44,25 @@ export default function PhotoGrid({ photos }) {
     <>
       {locations.length > 1 && (
         <div role="group" aria-label="Filter photos by location" className="mb-7 flex flex-wrap gap-2">
-          <Chip label="All" count={photos.length} selected={active === ALL} onSelect={() => setActive(ALL)} />
+          <Chip
+            label="All"
+            count={photos.length}
+            selected={active === ALL}
+            onSelect={() => {
+              setOpenIndex(null);
+              setActive(ALL);
+            }}
+          />
           {locations.map((location) => (
             <Chip
               key={location.slug}
               label={location.name}
               count={location.count}
               selected={active === location.slug}
-              onSelect={() => setActive(location.slug)}
+              onSelect={() => {
+                setOpenIndex(null);
+                setActive(location.slug);
+              }}
             />
           ))}
         </div>
@@ -60,9 +74,16 @@ export default function PhotoGrid({ photos }) {
           so vertical and horizontal spacing read as one rhythm. */}
       <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
         {shown.map((photo, i) => (
-          <PhotoFrame key={photo.id ?? photo.src} photo={photo} priority={i < 2} />
+          <PhotoFrame
+            key={photo.id ?? photo.src}
+            photo={photo}
+            priority={i < 2}
+            onOpen={() => setOpenIndex(i)}
+          />
         ))}
       </div>
+
+      <Lightbox photos={shown} index={openIndex} onClose={() => setOpenIndex(null)} onIndex={setOpenIndex} />
 
       {/* Filtering rearranges the page silently for a screen reader otherwise. */}
       <p aria-live="polite" className="sr-only">

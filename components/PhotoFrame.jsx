@@ -13,7 +13,7 @@ import Image from "next/image";
  * image on hover. Each field drops out individually when a photo's data lacks
  * it, and the overlay is skipped entirely when none of the three are present.
  */
-export default function PhotoFrame({ photo, priority = false }) {
+export default function PhotoFrame({ photo, priority = false, onOpen }) {
   const exif = photo.exif ?? {};
 
   // Built by filtering rather than interpolating, so a missing field costs a
@@ -23,7 +23,14 @@ export default function PhotoFrame({ photo, priority = false }) {
 
   return (
     <figure className="group mb-4 break-inside-avoid">
-      <div className="relative overflow-hidden rounded-xl bg-fill">
+      {/* A button rather than the figure itself: the caption below stays plain
+          text, and the photo gets the site's one focus treatment for free. */}
+      <button
+        type="button"
+        onClick={() => onOpen?.()}
+        aria-label={`View ${photo.caption || photo.alt || "photo"} larger`}
+        className="relative block w-full cursor-zoom-in overflow-hidden rounded-xl bg-fill"
+      >
         <Image
           src={photo.src}
           alt={photo.alt}
@@ -42,7 +49,7 @@ export default function PhotoFrame({ photo, priority = false }) {
             className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-wrap gap-x-3
               bg-gradient-to-t from-black/70 via-black/35 to-transparent px-3 pb-2.5 pt-10
               font-mono text-[11px] text-white opacity-0 transition-opacity duration-250
-              ease-[var(--ease-tile)] group-hover:opacity-100
+              ease-[var(--ease-tile)] group-hover:opacity-100 group-focus-visible:opacity-100
               [@media(hover:none)]:opacity-100"
           >
             {settings.map((setting) => (
@@ -50,7 +57,7 @@ export default function PhotoFrame({ photo, priority = false }) {
             ))}
           </div>
         )}
-      </div>
+      </button>
 
       {(photo.caption || gear.length > 0) && (
         <figcaption className="px-0.5 pt-2.5">

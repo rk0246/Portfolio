@@ -68,6 +68,8 @@ const paths = {
   ),
   arrowUpRight: <path d="M7 17 17 7M9 7h8v8" />,
   arrowLeft: <path d="M19 12H5m0 0 6-6m-6 6 6 6" />,
+  arrowRight: <path d="M5 12h14m0 0-6-6m6 6-6 6" />,
+  close: <path d="M18 6 6 18M6 6l12 12" />,
   download: <path d="M12 3.5v11m0 0 4-4m-4 4-4-4M4.5 19.5h15" />,
   play: <path d="M8.5 5.6 19 12 8.5 18.4Z" />,
   pin: (
