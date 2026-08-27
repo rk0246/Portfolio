@@ -18,8 +18,11 @@ export default async function PhotographyPage() {
     <PageShell
       wide
       kicker="Photography"
-      title="Frames"
-      lede="Mostly available light, mostly wide open. Hover a frame for the settings behind it — for anyone who cares, and I know you do."
+      title="Photos"
+      lede={[
+        "Shot mainly on a Sony a7 IV + 24-105mm f/4, 35mm f/1.8, 20mm f/1.8, 70-200mm f/2.8, and a Helios 44m-4.",
+        "Click any photo to view it full screen.",
+      ]}
     >
       {error ? (
         <p className="font-mono text-sm text-muted">{error}</p>
