@@ -25,7 +25,7 @@ components/
   Hud.jsx          corner readouts: clock, viewport size, visitor timezone
   PageShell.jsx    shared kicker/title/lede for the six section pages
   ProjectCard.jsx  PhotoFrame.jsx  VideoEmbed.jsx  Icon.jsx
-  Preferences.jsx  theme + sound state, MotionConfig
+  Preferences.jsx  theme state, MotionConfig
 data/
   nav.js           ← the seven sections the dock is built from.
   site.js resume.js projects.js youtube.js

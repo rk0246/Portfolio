@@ -9,14 +9,13 @@ import Icon from "./Icon";
  * page keeps that tint persistently, plus a shared-layout dot that slides
  * between icons on navigation.
  */
-export default function DockIcon({ section, active, onNavigate }) {
+export default function DockIcon({ section, active }) {
   return (
     <li className="relative shrink-0">
       <Link
         href={section.href}
         aria-label={section.label}
         aria-current={active ? "page" : undefined}
-        onClick={onNavigate}
         className={`group relative flex h-9 w-9 items-center justify-center rounded-xl
           transition-[color,transform,background-color] duration-200 ease-[var(--ease-tile)]
           hover:-translate-y-1 hover:bg-fill hover:text-red

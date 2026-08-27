@@ -31,7 +31,7 @@ function ToggleButton({ label, pressed, onClick, icon }) {
  */
 export default function Dock() {
   const pathname = usePathname();
-  const { theme, setTheme, sound, setSound, playClick } = usePreferences();
+  const { theme, setTheme } = usePreferences();
 
   return (
     <nav
@@ -39,7 +39,7 @@ export default function Dock() {
       className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 sm:bottom-6"
     >
       <ul
-        /* Nine targets have to fit a 375px phone: no gaps and tight padding
+        /* Eight targets have to fit a 375px phone: no gaps and tight padding
            below sm, with overflow-x as the escape hatch on narrower screens
            rather than a clipped or wrapped dock. */
         className="flex max-w-[calc(100vw-1.5rem)] items-center gap-0 overflow-x-auto
@@ -51,7 +51,6 @@ export default function Dock() {
             key={section.href}
             section={section}
             active={isActive(pathname, section.href)}
-            onNavigate={playClick}
           />
         ))}
 
@@ -61,17 +60,7 @@ export default function Dock() {
           label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
           pressed={theme === "dark"}
           icon={theme === "dark" ? "sun" : "moon"}
-          onClick={() => {
-            setTheme(theme === "dark" ? "light" : "dark");
-            playClick();
-          }}
-        />
-
-        <ToggleButton
-          label={sound ? "Mute interface sounds" : "Enable interface sounds"}
-          pressed={sound}
-          icon={sound ? "sound" : "mute"}
-          onClick={() => setSound(!sound)}
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         />
       </ul>
     </nav>
