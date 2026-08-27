@@ -1,52 +1,145 @@
-/** ⚠️ PLACEHOLDER CONTENT — swap in your real roles, dates, and impact. */
-export const experience = [
-  {
-    role: "Senior Software Engineer",
-    company: "Company Name",
-    dates: "2023 — Present",
-    location: "Seattle, WA",
-    impact: [
-      "Led the rebuild of the customer-facing dashboard, cutting time-to-interactive from 4.2s to 1.1s.",
-      "Designed the shared component library now used by four product teams.",
-      "Mentored three engineers through their first production launches.",
-    ],
-    tags: ["React", "TypeScript", "Node", "Postgres"],
-  },
-  {
-    role: "Software Engineer",
-    company: "Previous Company",
-    dates: "2021 — 2023",
-    location: "Remote",
-    impact: [
-      "Built the internal analytics pipeline processing ~40M events/day.",
-      "Shipped the onboarding flow that lifted activation 18% quarter over quarter.",
-    ],
-    tags: ["Python", "Airflow", "AWS"],
-  },
-  {
-    role: "Junior Developer",
-    company: "First Company",
-    dates: "2019 — 2021",
-    location: "Seattle, WA",
-    impact: [
-      "Maintained and extended a legacy Rails monolith serving 200k monthly users.",
-      "Automated the release checklist, taking deploys from 90 minutes to 10.",
-    ],
-    tags: ["Ruby", "Rails", "jQuery"],
-  },
-];
+/**
+ * Résumé content, transcribed from the PDF in /public/resume.pdf.
+ *
+ * The page renders these four exports in the same order the PDF does —
+ * education first, because that's the lead for a student résumé. Keep the two
+ * in sync: /resume and the download should never disagree.
+ *
+ * Wording stays close to the PDF's own phrasing on purpose. `tags` are the one
+ * addition — they're pulled from terms already stated in the bullets, so
+ * scanning the page doesn't require reading every line.
+ */
 
 export const education = [
   {
-    school: "University Name",
-    degree: "B.S. Computer Science",
-    dates: "2015 — 2019",
+    school: "Carnegie Mellon University",
+    location: "Pittsburgh, PA",
+    degree:
+      "B.S. Business Administration — Concentration in AI, Minor in Information Systems",
+    dates: "August 2024 — December 2027",
+    honors: ["GPA 4.0", "Dean's List 2024, 2025"],
+    coursework: [
+      "Machine Learning for Business Analytics",
+      "Database Design & Development",
+      "Finance",
+      "Business Computing (Excel + MIS)",
+    ],
+  },
+  {
+    school: "Los Osos High School",
+    location: "Rancho Cucamonga, CA",
+    dates: "August 2020 — May 2024",
+    honors: [
+      "GPA 4.0 (UW) / 4.75 (W)",
+      "1550 SAT",
+      "Superintendent's Honor Roll",
+    ],
+  },
+];
+
+export const experience = [
+  {
+    role: "Head of Tech X Product Committee",
+    company: "ScottyLabs",
+    dates: "June 2025 — Present",
+    impact: [
+      "Serving as Product Lead for a developer team building standardized hackathon management software.",
+      "Identifying and implementing key features through market research, user testing, and competitive analysis with PostHog.",
+    ],
+    tags: ["Product Lead", "Market Research", "User Testing", "PostHog"],
+  },
+  {
+    role: "Marketing Intern",
+    company: "Zeon Capital",
+    dates: "April 2025 — June 2025",
+    impact: [
+      "Created and managed social media content for a quantitative copy trading platform.",
+      "Developed campaigns that improved user engagement and brand visibility.",
+    ],
+    tags: ["Social Media", "Content", "Campaigns"],
+  },
+  {
+    role: "VP of Marketing, Consultant",
+    company: "Tartan Marketing Association",
+    dates: "January 2025 — Present",
+    impact: [
+      "Leading a 3–6 person team to manage social media, merchandise, and video production.",
+      "Partnered with a local stand-up comedy club to boost sign-ups for their annual show.",
+      "Collaborated with a local conservatory to amplify awareness of their Climate Toolkit Initiative.",
+    ],
+    tags: ["Team Lead", "Social Media", "Video Production", "Consulting"],
+  },
+  {
+    role: "Data Analysis and Accounting Intern",
+    company: "Kaiba Dining Group",
+    dates: "June 2023 — August 2023",
+    impact: [
+      "Assisted with accrual-basis accounting and maintained financial data using spreadsheets.",
+      "Supported marketing and data-driven decision-making through basic analytics.",
+    ],
+    tags: ["Accounting", "Analytics", "Spreadsheets"],
+  },
+];
+
+/** The PDF's "Projects & Awards" block. `note` is the honour, where there is
+    one — it renders in the accent next to the title. */
+export const projectsAndAwards = [
+  {
+    title: "Students Using Data for Social Good",
+    role: "Consultant",
+    dates: "May 2026",
+    impact: [
+      "Built a Power BI dashboard analyzing data from over 700 users to determine success rates for an online resume builder and job application tool.",
+      "Delivered verifiable statistics to multiple nonprofit partners, supporting data-driven decisions and credibility claims.",
+    ],
+    tags: ["Power BI", "Dashboards", "Nonprofit"],
+  },
+  {
+    title: "HyperX DesignX Hackathon",
+    note: "2nd Place",
+    dates: "October 2022",
+    impact: [
+      "Conceptualized an original headphone design for HyperX, a leading gaming peripheral company.",
+      "Developed a functional website and 3D product model within a 24-hour timeframe.",
+    ],
+    tags: ["Hackathon", "Industrial Design", "3D Modeling"],
+  },
+  {
+    title: "YouTube + Freelance Creator",
+    dates: "2020 — Present",
+    impact: [
+      "Built and scaled a YouTube channel to 20K+ subscribers and 4M+ views through a data-driven content strategy.",
+      "Delivered paid photography and videography projects for startups, organizations, and local businesses, including a Y Combinator startup.",
+    ],
+    tags: ["YouTube", "Photography", "Videography"],
   },
 ];
 
 export const skills = [
-  { group: "Languages", items: ["TypeScript", "JavaScript", "Python", "Go", "SQL"] },
-  { group: "Frontend", items: ["React", "Next.js", "Tailwind", "Framer Motion"] },
-  { group: "Backend", items: ["Node", "Postgres", "Redis", "GraphQL"] },
-  { group: "Tooling", items: ["Docker", "AWS", "Vercel", "GitHub Actions"] },
+  {
+    group: "Software",
+    items: [
+      "VS Code",
+      "Claude Code",
+      "Excel",
+      "PostHog",
+      "Figma",
+      "Photoshop",
+      "Premiere Pro",
+      "Unity",
+    ],
+  },
+  {
+    group: "Technical",
+    items: [
+      "Python",
+      "SQL",
+      "HTML",
+      "CSS",
+      "Photography",
+      "Film Production",
+      "Marketing",
+    ],
+  },
+  { group: "Languages", items: ["English", "Korean", "Spanish"] },
 ];

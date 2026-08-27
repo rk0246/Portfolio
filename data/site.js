@@ -15,8 +15,8 @@ export const site = {
     { label: "GitHub", href: "https://github.com/", handle: "@yourhandle" },
     {
       label: "LinkedIn",
-      href: "https://linkedin.com/in/",
-      handle: "/in/yourhandle",
+      href: "https://www.linkedin.com/in/ryan-kim-59323b26b/",
+      handle: "/in/ryan-kim-59323b26b",
     },
     { label: "YouTube", href: "https://youtube.com/@ryankimyt", handle: "@ryankimyt" },
     {
