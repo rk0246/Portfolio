@@ -5,10 +5,10 @@
  */
 export const site = {
   name: "Ryan Kim",
-  role: "Software Engineer",
+  role: "Business & AI, CMU",
   tagline:
     "I build software, shoot photos, and take apart anything with a circuit board in it.",
-  location: "Seattle, WA",
+  location: "Pittsburgh, PA",
   email: "rkim0246@gmail.com",
   resumePdf: "/resume.pdf",
   socials: [
