@@ -35,10 +35,12 @@ export default function YouTubePage() {
       wide
       kicker="YouTube"
       title="Video"
-      lede="Scenes from film and TV, recreated on a $3.01 budget — plus the occasional short. Nothing loads from YouTube until you press play."
+      lede="Shot-for-shot recreations of scenes from film and TV, built on a $3.01 budget. Plus the occasional original short film whenever I feel inspired!"
     >
       <section>
-        <h2 className="font-mono text-xs tracking-[0.2em] text-muted uppercase">Featured</h2>
+        <h2 className="font-mono text-xs tracking-[0.2em] text-muted uppercase">
+          Featured
+        </h2>
         <div className="mt-5">
           <VideoEmbed id={featured.id} title={featured.title} priority />
           {featured.caption && (
@@ -51,14 +53,18 @@ export default function YouTubePage() {
 
       {videos.length > 0 && (
         <section className="mt-14 border-t border-border pt-10">
-          <h2 className="font-mono text-xs tracking-[0.2em] text-muted uppercase">More</h2>
+          <h2 className="font-mono text-xs tracking-[0.2em] text-muted uppercase">
+            More
+          </h2>
           <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {videos.map((video, i) => (
               /* Index in the key as well as the id: the same video can
                  legitimately appear twice, and duplicate keys break React. */
               <li key={`${video.id}-${i}`}>
                 <VideoEmbed id={video.id} title={video.title} />
-                {video.caption && <h3 className="mt-3 text-sm">{video.caption}</h3>}
+                {video.caption && (
+                  <h3 className="mt-3 text-sm">{video.caption}</h3>
+                )}
               </li>
             ))}
           </ul>

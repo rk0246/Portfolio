@@ -19,17 +19,13 @@ const ELSEWHERE = [
 
 export default function ProjectsPage() {
   return (
-    <PageShell
-      kicker="In progress"
-      title="Projects"
-      lede="This one's still being built. Rather than fill it with placeholders, I've left it empty until there's something here worth your time."
-    >
+    <PageShell kicker="In progress" title="Projects" lede="">
       <div className="rounded-2xl border border-dashed border-border px-6 py-14 text-center sm:py-20">
         <p className="font-mono text-xs tracking-[0.2em] text-red uppercase">
           Coming soon
         </p>
         <h2 className="mx-auto mt-4 max-w-md font-display text-2xl leading-tight font-bold tracking-tight">
-          A few things are in flight.
+          A few things are still in progress.
         </h2>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted">
           Check back, or have a look at the sections that are up to date.
