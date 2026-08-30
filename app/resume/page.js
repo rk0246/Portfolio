@@ -68,7 +68,10 @@ export default function ResumePage() {
     <PageShell
       kicker="Resume"
       title="Work"
-      lede="Business and AI at Carnegie Mellon, with product, marketing, and data work in between. The PDF holds the same content if you'd rather print it."
+      lede={[
+        "Studying Business Administration and AI at Carnegie Mellon, with experience spanning product, marketing, and data.",
+        "The PDF below has the same content, if you'd rather read or print it that way.",
+      ]}
     >
       <div className="flex flex-wrap items-center gap-3">
         <a
