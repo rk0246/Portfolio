@@ -105,13 +105,21 @@ export default function Lightbox({ photos, index, onClose, onIndex }) {
             onClick={(e) => e.stopPropagation()}
             className="flex max-h-full min-h-0 max-w-5xl flex-col items-center gap-4"
           >
+            {/* unoptimized on purpose. The URL already carries the width,
+                quality and auto=format we want, so routing it through the Next
+                optimizer would decode and re-encode an image the CDN has
+                already sized — latency and cost for no fewer bytes. It also
+                keeps this the *same* URL PhotoFrame preloads on hover, so the
+                click lands on a warm cache entry instead of a near-miss. */}
             <Image
               src={photo.full ?? photo.src}
               alt={photo.alt}
-              width={photo.width}
-              height={photo.height}
-              sizes="(max-width: 640px) 92vw, 80vw"
+              width={photo.fullWidth ?? photo.width}
+              height={photo.fullHeight ?? photo.height}
+              placeholder={photo.blurDataURL ? "blur" : "empty"}
+              blurDataURL={photo.blurDataURL}
               className="max-h-[70vh] w-auto rounded-lg object-contain"
+              unoptimized
               priority
             />
             <Meta photo={photo} />

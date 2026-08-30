@@ -1,6 +1,29 @@
 import Image from "next/image";
 
 /**
+ * URLs already requested, so a pointer sweeping the grid asks for each photo
+ * once rather than on every re-entry. The browser cache would dedupe anyway;
+ * this just avoids creating the elements.
+ */
+const preloaded = new Set();
+
+/**
+ * Start fetching the lightbox source while the pointer is still on the
+ * thumbnail, so the click opens onto an image that is already arriving.
+ *
+ * `window.Image` rather than `Image` — the next/image component owns that name
+ * in this module. Deliberately fire-and-forget: a failed preload costs nothing
+ * because the lightbox requests the same URL again and handles it normally.
+ */
+function preload(url) {
+  if (!url || typeof window === "undefined" || preloaded.has(url)) return;
+  preloaded.add(url);
+  const img = new window.Image();
+  img.decoding = "async";
+  img.src = url;
+}
+
+/**
  * One photo in the masonry.
  *
  * Deliberately unframed — no border, no shadow. The gap between photos is the
@@ -28,6 +51,10 @@ export default function PhotoFrame({ photo, priority = false, onOpen }) {
       <button
         type="button"
         onClick={() => onOpen?.()}
+        /* Pointer rather than mouse, so a touch also gets the head start
+           between finger-down and the click. Focus covers the keyboard path. */
+        onPointerEnter={() => preload(photo.full)}
+        onFocus={() => preload(photo.full)}
         aria-label={`View ${photo.caption || photo.alt || "photo"} larger`}
         className="relative block w-full cursor-zoom-in overflow-hidden rounded-xl bg-fill"
       >
