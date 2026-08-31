@@ -42,9 +42,6 @@ export default function AboutPage() {
             sizes="13rem"
             className="aspect-square w-full rounded-xl border border-border bg-fill object-cover"
           />
-          <p className="mt-2 font-mono text-[11px] text-muted">
-            {about.location}
-          </p>
         </div>
       </div>
 

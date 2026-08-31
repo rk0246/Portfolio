@@ -13,7 +13,6 @@ export const about = {
   eyebrow: "ABOUT",
   heading: "Ryan Kim",
   bio: "I'm from Los Angeles, and I'm currently a junior at Carnegie Mellon University's Tepper School of Business, studying Business Administration with a concentration in AI and a minor in Information Systems. Lately, I've been drawn toward entrepreneurship and sports and entertainment management, with a particular interest in building things and understanding how to get people together in real life using digital means.",
-  location: "Los Angeles, CA",
   /* Path is relative to /public. Swap the file or change this string to
      change the headshot; `portraitAlt` is what screen readers announce.
      The dimensions must match the file's real pixel size — the page renders
