@@ -1,4 +1,5 @@
 import Image from "next/image";
+import PhotoCredit from "./PhotoCredit";
 
 /**
  * URLs already requested, so a pointer sweeping the grid asks for each photo
@@ -86,16 +87,17 @@ export default function PhotoFrame({ photo, priority = false, onOpen }) {
         )}
       </button>
 
-      {(photo.caption || gear.length > 0) && (
-        <figcaption className="px-0.5 pt-2.5">
-          {photo.caption && <p className="text-sm">{photo.caption}</p>}
-          {gear.length > 0 && (
-            <p className="mt-1 font-mono text-[11px] leading-relaxed text-muted">
-              {gear.join(" · ")}
-            </p>
-          )}
-        </figcaption>
-      )}
+      {/* Always rendered now: the Unsplash credit is not optional, so the
+          caption block no longer depends on there being a caption or gear. */}
+      <figcaption className="px-0.5 pt-2.5">
+        {photo.caption && <p className="text-sm">{photo.caption}</p>}
+        {gear.length > 0 && (
+          <p className="mt-1 font-mono text-[11px] leading-relaxed text-muted">
+            {gear.join(" · ")}
+          </p>
+        )}
+        <PhotoCredit credit={photo.credit} className="mt-1" />
+      </figcaption>
     </figure>
   );
 }

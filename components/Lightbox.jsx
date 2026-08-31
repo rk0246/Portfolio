@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Icon from "./Icon";
+import PhotoCredit from "./PhotoCredit";
 
 /**
  * Full-screen view of one photo, with its settings spelled out.
@@ -21,6 +22,54 @@ export default function Lightbox({ photos, index, onClose, onIndex }) {
   const photo = open ? photos[index] : null;
   const dialogRef = useRef(null);
   const returnFocusRef = useRef(null);
+
+  const [downloading, setDownloading] = useState(false);
+
+  /**
+   * Save the photo, in the order the guidelines require: register the download
+   * with Unsplash first, then hand over the file.
+   *
+   * The file comes down as a blob and goes out through a throwaway anchor
+   * pointing at an object URL. A plain <a download href={unsplashUrl}> does not
+   * work here — the download attribute is ignored on cross-origin hrefs, so the
+   * browser navigates to the image instead of saving it.
+   */
+  const download = useCallback(async () => {
+    if (!photo || downloading) return;
+    setDownloading(true);
+    const src = photo.download ?? photo.full ?? photo.src;
+
+    try {
+      // Tracking is required, but it is not the visitor's problem: a failed or
+      // rate-limited ping must never be the reason a download does not happen.
+      await fetch(`/api/unsplash/download/${photo.id}`, { method: "POST" }).catch(
+        () => {},
+      );
+
+      // images.unsplash.com sends access-control-allow-origin: *, so reading the
+      // bytes cross-origin is allowed.
+      const res = await fetch(src);
+      if (!res.ok) throw new Error(`image ${res.status}`);
+      const blob = await res.blob();
+
+      const href = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = href;
+      a.download = `ryan-kim-photography-${photo.id}.jpg`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      // Released on a later tick. Revoking in the same one has historically
+      // cancelled the download in Safari before it starts.
+      setTimeout(() => URL.revokeObjectURL(href), 10_000);
+    } catch {
+      // Fall back to handing them the image directly rather than failing
+      // silently — they can still save it from there.
+      window.open(src, "_blank", "noopener");
+    } finally {
+      setDownloading(false);
+    }
+  }, [photo, downloading]);
 
   const next = useCallback(() => onIndex((index + 1) % photos.length), [index, photos.length, onIndex]);
   const prev = useCallback(() => onIndex((index - 1 + photos.length) % photos.length), [index, photos.length, onIndex]);
@@ -83,6 +132,12 @@ export default function Lightbox({ photos, index, onClose, onIndex }) {
             <span className="mr-2 font-mono text-xs tabular-nums text-muted">
               {index + 1} / {photos.length}
             </span>
+            <Control
+              label={downloading ? "Preparing download…" : "Download photo"}
+              onClick={download}
+              icon="download"
+              busy={downloading}
+            />
             <Control label="Close" onClick={onClose} icon="close" />
           </div>
 
@@ -139,8 +194,8 @@ function Meta({ photo }) {
     ["ISO", exif.iso],
   ].filter(([, value]) => Boolean(value));
 
-  const hasAnything = stats.length > 0 || photo.locationName || photo.caption || exif.camera;
-  if (!hasAnything) return null;
+  // No early return on empty EXIF any more: the Unsplash credit has to render
+  // whether or not the photo carries settings.
 
   return (
     <figcaption className="flex w-full flex-col items-center gap-2.5 text-center">
@@ -168,24 +223,30 @@ function Meta({ photo }) {
           {exif.camera && <span>{[exif.camera, exif.focal].filter(Boolean).join(" · ")}</span>}
         </p>
       )}
+
+      <PhotoCredit credit={photo.credit} />
     </figcaption>
   );
 }
 
-function Control({ label, onClick, icon }) {
+function Control({ label, onClick, icon, busy = false }) {
   return (
     <button
       type="button"
       aria-label={label}
+      title={label}
+      aria-busy={busy || undefined}
+      disabled={busy}
       onClick={(e) => {
         e.stopPropagation();
         onClick();
       }}
       className="flex h-10 w-10 items-center justify-center rounded-xl border border-border
         bg-surface/80 text-text/70 backdrop-blur transition-colors
-        hover:border-red hover:text-red"
+        hover:border-red hover:text-red disabled:cursor-progress
+        disabled:hover:border-border disabled:hover:text-text/70"
     >
-      <Icon name={icon} size={18} />
+      <Icon name={icon} size={18} className={busy ? "animate-pulse" : ""} />
     </button>
   );
 }
