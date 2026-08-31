@@ -12,7 +12,7 @@ export default function ContactPage() {
     <PageShell
       kicker="Contact"
       title="Say hi"
-      lede="Email is the surest way to reach me. I read everything, and I answer most of it."
+      lede="Feel free to reach out by email, or connect with me on LinkedIn!"
     >
       <a
         href={`mailto:${site.email}`}
@@ -32,7 +32,9 @@ export default function ContactPage() {
       </p>
 
       <section className="mt-14 border-t border-border pt-10">
-        <h2 className="font-mono text-xs tracking-[0.2em] text-muted uppercase">Elsewhere</h2>
+        <h2 className="font-mono text-xs tracking-[0.2em] text-muted uppercase">
+          Elsewhere
+        </h2>
         <ul className="mt-6 divide-y divide-border border-y border-border">
           {site.socials.map((social) => (
             <li key={social.label}>
