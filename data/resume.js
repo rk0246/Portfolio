@@ -2,12 +2,16 @@
  * Résumé content, transcribed from the PDF in /public/resume.pdf.
  *
  * The page renders these four exports in the same order the PDF does —
- * education first, because that's the lead for a student résumé. Keep the two
- * in sync: /resume and the download should never disagree.
+ * education first, because that's the lead for a student résumé.
  *
  * Wording stays close to the PDF's own phrasing on purpose. `tags` are the one
  * addition — they're pulled from terms already stated in the bullets, so
  * scanning the page doesn't require reading every line.
+ *
+ * The PDF is the source for wording, but not a strict subset check: a one-page
+ * résumé has to cut things a page with no page count does not. Kaiba Dining
+ * Group is here and not in the current PDF for exactly that reason — it is a
+ * deliberate difference, not drift, so don't "fix" it by deleting the entry.
  */
 
 export const education = [
@@ -39,11 +43,21 @@ export const education = [
 
 export const experience = [
   {
+    role: "Handshake AI Training",
+    company: "Handshake AI",
+    dates: "January 2026 — Present",
+    impact: [
+      "Evaluated and labeled hundreds of AI-generated images against quality and accuracy criteria to improve model training data for image generation systems.",
+      "Provided structured feedback on prompt-to-image outputs, helping refine model performance across style, composition, and realism benchmarks.",
+    ],
+    tags: ["Data Labeling", "Model Evaluation", "Image Generation"],
+  },
+  {
     role: "Head of Tech X Product Committee",
     company: "ScottyLabs",
     dates: "June 2025 — Present",
     impact: [
-      "Serving as Product Lead for a developer team building standardized hackathon management software.",
+      "Serving as Product Lead for a developer team building hackathon management software.",
       "Identifying and implementing key features through market research, user testing, and competitive analysis with PostHog.",
     ],
     tags: ["Product Lead", "Market Research", "User Testing", "PostHog"],
