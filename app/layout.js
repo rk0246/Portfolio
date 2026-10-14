@@ -2,7 +2,7 @@ import {
   Space_Grotesk,
   Inter,
   JetBrains_Mono,
-  M_PLUS_Rounded_1c,
+  Gasoek_One,
 } from "next/font/google";
 import "./globals.css";
 import Dock from "@/components/Dock";
@@ -13,13 +13,11 @@ import {
 } from "@/components/Preferences";
 import { site } from "@/data/site";
 
-/* The wordmark only — a rounded gothic at its heaviest weight. Rounded stroke
-   terminals are the point here; a geometric face like Poppins has circular
-   bowls but still cuts its terminals flat. Headings stay on Space Grotesk. */
-const mPlusRounded = M_PLUS_Rounded_1c({
+/* The wordmark only. Headings stay on Space Grotesk. */
+const gasoek = Gasoek_One({
   subsets: ["latin"],
-  weight: "900",
-  variable: "--font-rounded",
+  weight: "400",
+  variable: "--font-gasoek",
   display: "swap",
 });
 
@@ -64,7 +62,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} ${mPlusRounded.variable}`}
+      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} ${gasoek.variable}`}
     >
       <head>
         {/* Applies the stored theme before first paint so dark users never

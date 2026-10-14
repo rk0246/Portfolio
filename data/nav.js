@@ -29,8 +29,6 @@
  *  radially masked at its edges, so the grid reads as an island rather than a
  *  backdrop. Keep GRID.w/GRID.h whole multiples of CELL so it divides evenly. */
 export const PLANE = { w: 2600, h: 1800 };
-export const GRID = { w: 1280, h: 800 };
-export const CELL = 40;
 
 export const sections = [
   {

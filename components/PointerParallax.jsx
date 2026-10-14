@@ -15,7 +15,7 @@ const EASE = 0.075;
  * Renders nothing and holds no state: it writes --pan-x/--pan-y straight onto
  * the plane element from a rAF loop. Going through React here would re-render
  * ~1,100 grid cells on every mouse move. That's also why it queries for
- * .iso-plane instead of taking a ref — IsoStage is a server component and
+ * .iso-stage instead of taking a ref — IsoStage is a server component and
  * keeping it that way is what lets the cells ship without any JS.
  *
  * The loop only runs while the canvas is still catching up, and never starts
@@ -23,7 +23,7 @@ const EASE = 0.075;
  */
 export default function PointerParallax() {
   useEffect(() => {
-    const plane = document.querySelector(".iso-plane");
+    const plane = document.querySelector(".iso-stage");
     if (!plane) return;
 
     const desktop = window.matchMedia("(min-width: 768px)");

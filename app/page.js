@@ -1,3 +1,4 @@
+import Link from "next/link";
 import IsoStage from "@/components/IsoStage";
 import Hud from "@/components/Hud";
 import { site } from "@/data/site";
@@ -17,20 +18,21 @@ export default function HomePage() {
           </p>
           <h1
             aria-label={site.name}
-            className="mt-4 font-wordmark font-black text-[clamp(2.75rem,11vw,7rem)] leading-[0.9]
-              tracking-[0.02em] md:mt-0 md:text-[10.5rem] md:leading-[0.92]
-              md:tracking-[0.13em] md:text-center md:uppercase"
+            className="mt-4 font-wordmark text-[clamp(2.6rem,9vw,7.8rem)] uppercase leading-[1.1538]
+              tracking-[0.06em] md:mt-0 md:text-center"
           >
             {/* Blocks rather than a wrapped line, so the shorter name centres
                 under the longer one. */}
-            <span aria-hidden="true" className="block">
-              {firstName}
-            </span>
-            {lastName && (
+            <Link href="/about" aria-label={`${site.name}, about page`}>
               <span aria-hidden="true" className="block">
-                {lastName}
+                <span className="name-line">{firstName}</span>
               </span>
-            )}
+              {lastName && (
+                <span aria-hidden="true" className="block">
+                  <span className="name-line">{lastName}</span>
+                </span>
+              )}
+            </Link>
           </h1>
           <p className="mt-5 max-w-xl text-base text-muted md:hidden">
             {site.tagline}

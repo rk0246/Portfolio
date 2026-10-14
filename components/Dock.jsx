@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useMotionValue, useReducedMotion } from "framer-motion";
 import { dockSections, isActive } from "@/data/nav";
 import { usePreferences } from "./Preferences";
 import DockIcon from "./DockIcon";
@@ -32,6 +33,9 @@ function ToggleButton({ label, pressed, onClick, icon }) {
 export default function Dock() {
   const pathname = usePathname();
   const { theme, setTheme } = usePreferences();
+  // Cursor x across the dock, for the magnification. Infinity = not hovering.
+  const mouseX = useMotionValue(Infinity);
+  const reduce = useReducedMotion();
 
   return (
     <nav
@@ -39,10 +43,16 @@ export default function Dock() {
       className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 sm:bottom-6"
     >
       <ul
+        onMouseMove={(e) => {
+          // Pointer-only, and md+ only: below that the dock scrolls sideways.
+          if (!reduce && window.innerWidth >= 768) mouseX.set(e.clientX);
+        }}
+        onMouseLeave={() => mouseX.set(Infinity)}
         /* Eight targets have to fit a 375px phone: no gaps and tight padding
            below sm, with overflow-x as the escape hatch on narrower screens
-           rather than a clipped or wrapped dock. */
-        className="flex max-w-[calc(100vw-1.5rem)] items-center gap-0 overflow-x-auto
+           rather than a clipped or wrapped dock. From md up it never overflows, and
+           overflow must be visible there or the hover labels get clipped. */
+        className="flex max-w-[calc(100vw-1.5rem)] items-center gap-0 overflow-x-auto md:overflow-visible
           rounded-2xl border border-border bg-surface/85 px-1 py-1.5
           shadow-[0_8px_30px_rgba(0,0,0,0.12)] backdrop-blur-xl sm:gap-1 sm:rounded-[1.25rem] sm:px-2"
       >
@@ -51,6 +61,7 @@ export default function Dock() {
             key={section.href}
             section={section}
             active={isActive(pathname, section.href)}
+            mouseX={mouseX}
           />
         ))}
 
