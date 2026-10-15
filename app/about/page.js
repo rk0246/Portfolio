@@ -1,6 +1,8 @@
 import Image from "next/image";
 import PageShell from "@/components/PageShell";
+import Highlights from "@/components/about/Highlights";
 import { about } from "@/data/about";
+import { highlights } from "@/data/highlights";
 
 /* Search results truncate around 160 characters, so the description leads with
    the bio's opening sentence rather than the whole paragraph. */
@@ -11,8 +13,7 @@ export const metadata = {
   description: bioOpener,
 };
 
-/** The period is this page's one accent mark, so it never comes from the copy
-    itself — strip whatever the data carries and render our own. */
+/** Headings render without a trailing period, whatever the copy carries. */
 const stem = (text) => text.replace(/\.+\s*$/, "");
 
 export default function AboutPage() {
@@ -45,7 +46,9 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Both rules on this page carry the same air — 6/7 above, 6/8 below —
+      <Highlights label={about.highlightsLabel} items={highlights} />
+
+      {/* Every rule on this page carries the same air — 6/7 above, 6/8 below —
           so the header divider and this one read as one rhythm. */}
       <section className="mt-6 border-t border-border pt-6 sm:mt-7 sm:pt-8">
         <h2 className="font-mono text-xs tracking-[0.2em] text-muted uppercase">
@@ -58,7 +61,6 @@ export default function AboutPage() {
             <div key={hobby.title}>
               <dt className="font-display text-lg font-bold tracking-tight">
                 {stem(hobby.title)}
-                <span className="text-red">.</span>
               </dt>
               <dd className="mt-1.5 text-sm leading-relaxed text-muted">
                 {hobby.description}

@@ -19,7 +19,8 @@ export const site = {
      exactly this sequence. (/resume looks LinkedIn up by label, so it is
      unaffected by reordering.)
 
-     `href` is where the link goes, `handle` is the text shown on the right of
+     `icon` is a key into components/BrandIcon.jsx. `href` is where the link
+     goes, `handle` is the text shown on the right of
      each row — they are separate on purpose, so the row can read "@ryankimyt"
      while pointing at a full URL.
 
@@ -28,26 +29,31 @@ export const site = {
   socials: [
     {
       label: "LinkedIn",
+      icon: "linkedin",
       href: "https://www.linkedin.com/in/ryan-kim-59323b26b/",
       handle: "/in/ryan-kim-59323b26b",
     },
     {
       label: "GitHub",
+      icon: "github",
       href: "https://github.com/rk0246",
       handle: "@rk0246",
     },
     {
       label: "YouTube",
+      icon: "youtube",
       href: "https://youtube.com/@ryankimyt",
       handle: "@ryankimyt",
     },
     {
       label: "Instagram",
+      icon: "instagram",
       href: "https://www.instagram.com/ryankim.yt/",
       handle: "@ryankim.yt",
     },
     {
       label: "OnlyFans",
+      icon: "onlyfans",
       href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       handle: "@ryankim",
     },

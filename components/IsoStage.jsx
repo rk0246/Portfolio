@@ -1,5 +1,6 @@
 import { PLANE } from "@/data/nav";
 import PointerParallax from "./PointerParallax";
+import PegGlow from "./PegGlow";
 import PegKeyboard from "./PegKeyboard";
 import PegCamera from "./PegCamera";
 import PegShelf from "./PegShelf";
@@ -14,7 +15,9 @@ import PegBobblehead from "./PegBobblehead";
 export default function IsoStage({ children }) {
   return (
     <div className="iso-stage">
-      <div className="iso-dots hidden md:block" aria-hidden="true" />
+      <div className="iso-dots hidden md:block" aria-hidden="true">
+        <div className="iso-glow" />
+      </div>
 
       <PegKeyboard />
       <PegCamera />
@@ -27,6 +30,8 @@ export default function IsoStage({ children }) {
       >
         {children}
       </div>
+
+      <PegGlow />
 
       {/* Renders nothing — just drifts the plane against the cursor. */}
       <PointerParallax />

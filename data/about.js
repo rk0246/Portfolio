@@ -5,9 +5,8 @@
  * the bio, add or remove a hobby, rename a label — the page follows without
  * any change to the component.
  *
- * On periods: the page treats the trailing period of `heading` and of each
- * hobby `title` as an accent mark and renders it in the site's accent colour.
- * Write them with or without the period — the page normalizes either way.
+ * On periods: headings and hobby titles render without a trailing period;
+ * write them with or without one — the page strips it.
  */
 export const about = {
   eyebrow: "ABOUT",
@@ -22,6 +21,8 @@ export const about = {
   portraitAlt: "Ryan Kim",
   portraitWidth: 1086,
   portraitHeight: 1448,
+  /* Entries for the Highlights timeline live in data/highlights.js. */
+  highlightsLabel: "HIGHLIGHTS",
   outsideOfWorkLabel: "OUTSIDE OF WORK",
   hobbies: [
     {

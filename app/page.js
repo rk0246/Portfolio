@@ -23,7 +23,7 @@ export default function HomePage() {
           >
             {/* Blocks rather than a wrapped line, so the shorter name centres
                 under the longer one. */}
-            <Link href="/about" aria-label={`${site.name}, about page`}>
+            <Link href="/resume" aria-label={`${site.name}, resume`}>
               <span aria-hidden="true" className="block">
                 <span className="name-line">{firstName}</span>
               </span>

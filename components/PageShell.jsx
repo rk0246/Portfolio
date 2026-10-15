@@ -31,7 +31,6 @@ export default function PageShell({
         )}
         <h1 className="mt-3 font-wordmark text-[clamp(2.25rem,7vw,4rem)] leading-[0.95] tracking-[0.01em]">
           {title}
-          <span className="text-red">.</span>
         </h1>
         {ledeParagraphs.length > 0 && (
           <div className="mt-4 max-w-2xl space-y-4 text-base text-muted sm:text-lg">

@@ -181,6 +181,34 @@ html[data-theme="dark"] {
     mask-image: radial-gradient(ellipse at center, #000 35%, transparent 85%);
   }
 
+  /* Pegs near the cursor light up: the same peg tile, bigger and in the text colour
+     (black; white in dark mode — red read as ominous, amber and mint felt off),
+     shown only through a soft circle at the cursor (--mx / --my, set by
+     PegGlow). It lives inside .iso-dots, so it drifts and fades out toward the
+     corners with the board. */
+  .iso-glow {
+    position: absolute;
+    inset: 0;
+    opacity: var(--glow, 0);
+    transition: opacity 250ms var(--ease-tile);
+    background-image: radial-gradient(
+      ellipse 2.8px 4.6px at center,
+      var(--color-text) 75%,
+      transparent 100%
+    );
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(
+      circle 120px at var(--mx, -999px) var(--my, -999px),
+      #000 0%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      circle 120px at var(--mx, -999px) var(--my, -999px),
+      #000 0%,
+      transparent 100%
+    );
+  }
+
   /* Drifts with the pegboard, so the hooks stay on their pegs. */
   .peg-keyboard {
     transform: translate(
@@ -280,7 +308,101 @@ html[data-theme="dark"] .glass-pill {
   transform: translateY(-0.06em) scale(1.04);
 }
 
+/* ---------------------------------------------------------------------------
+   /about Highlights: photos as printed snapshots.
+
+   The paper and tape are fixed physical tones, not theme tokens (a print is
+   white in any room); dark mode only warms the paper so it does not glare.
+   --tilt comes from the component (deterministic per photo); phones get half
+   of it. --base holds the resting transform so hover and reduced motion can
+   refer back to it.
+--------------------------------------------------------------------------- */
+.polaroid {
+  --base: rotate(calc(var(--tilt, 0deg) * 0.5));
+  position: relative;
+  margin: 0;
+  padding: 10px 10px 28px;
+  border-radius: 2px;
+  background: #ffffff;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: var(--base);
+  transition:
+    transform 260ms var(--ease-tile),
+    box-shadow 260ms var(--ease-tile);
+}
+
+@media (min-width: 768px) {
+  .polaroid {
+    --base: rotate(var(--tilt, 0deg));
+  }
+}
+
+.polaroid:hover {
+  transform: translateY(-4px) rotate(0deg);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 18px 34px rgba(0, 0, 0, 0.16);
+}
+
+html[data-theme="dark"] .polaroid {
+  background: #f2ede3;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+html[data-theme="dark"] .polaroid:hover {
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 20px 38px rgba(0, 0, 0, 0.55);
+}
+
+/* A strip of translucent tape across the top edge. */
+.polaroid-tape {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  z-index: 1;
+  width: 64px;
+  height: 20px;
+  transform: translateX(-50%) rotate(-2deg);
+  background: rgba(236, 228, 204, 0.72);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* Caption written in the thick bottom border. Dark ink, always — it sits on
+   the paper, not the page. */
+.polaroid-caption {
+  position: absolute;
+  right: 10px;
+  bottom: 7px;
+  left: 10px;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #2b2b2b;
+}
+
+/* --------------------------------------------------------------------------- */
+
 @media (prefers-reduced-motion: reduce) {
+  /* Highlights: entries visible, no hover lift. These beat
+     Framer Motion's inline styles, so the end state never depends on JS. */
+  .highlight-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .polaroid:hover {
+    transform: var(--base);
+  }
+
   *,
   *::before,
   *::after {

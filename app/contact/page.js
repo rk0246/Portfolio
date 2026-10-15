@@ -1,4 +1,5 @@
 import PageShell from "@/components/PageShell";
+import BrandIcon from "@/components/BrandIcon";
 import Icon from "@/components/Icon";
 import { site } from "@/data/site";
 
@@ -45,7 +46,8 @@ export default function ContactPage() {
                 className="group flex items-baseline justify-between gap-4 py-4
                   transition-colors hover:text-red"
               >
-                <span className="font-display text-lg font-bold tracking-tight">
+                <span className="flex items-center gap-3 font-display text-lg font-bold tracking-tight">
+                  <BrandIcon name={social.icon} size={20} />
                   {social.label}
                 </span>
                 <span className="flex items-center gap-2 font-mono text-xs text-muted transition-colors group-hover:text-red">
