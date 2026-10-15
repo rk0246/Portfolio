@@ -27,7 +27,7 @@
 
   --font-wordmark: var(--font-gasoek), ui-sans-serif, system-ui, sans-serif;
   --font-display:
-    var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+    var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 
@@ -126,7 +126,10 @@ html[data-theme="dark"] {
       inset 0 2px 14px rgba(0, 0, 0, 0.5);
   }
 
+  /* The plane is a big box over the whole stage; it must not swallow clicks
+     meant for the keyboard. Its link (the name) opts back in below. */
   .iso-plane {
+    pointer-events: none;
     display: block;
     padding: 0;
     position: absolute;
@@ -148,12 +151,13 @@ html[data-theme="dark"] {
     position: absolute;
   }
 
-  /* The pegboard: one dot per 28px, faded out toward the corners so the middle
-     stays clean. It follows the cursor drift like the name does, at double the
-     distance: a uniform lattice moving the same few px as the name is
-     indistinguishable from standing still, so it needs the extra travel to
+  /* The pegboard: one oval peg per 44px, faded out toward the corners so the
+     middle stays clean. It follows the cursor drift like the name does, at
+     double the distance: a uniform lattice moving the same few px as the name
+     is indistinguishable from standing still, so it needs the extra travel to
      read. Overscans the stage by more than that travel so its edge never
-     shows. */
+     shows. The pegs' centres sit at 44n - 42 on both axes (the keyboard's hooks
+     are placed against that). */
   .iso-dots {
     position: absolute;
     inset: -64px;
@@ -162,19 +166,49 @@ html[data-theme="dark"] {
       calc(var(--pan-x, 0px) * 2),
       calc(var(--pan-y, 0px) * 2)
     );
-    /* Oval pegs: a 1.8 x 2.6px ellipse with a soft edge. */
+    /* Oval pegs: a 2.2 x 3.8px ellipse with a soft edge. */
     background-image: radial-gradient(
-      ellipse 1.8px 2.6px at center,
-      color-mix(in srgb, var(--color-text) 10%, transparent) 75%,
+      ellipse 2.2px 3.8px at center,
+      color-mix(in srgb, var(--color-text) 18%, transparent) 75%,
       transparent 100%
     );
-    background-size: 28px 28px;
+    background-size: 44px 44px;
     -webkit-mask-image: radial-gradient(
       ellipse at center,
       #000 35%,
       transparent 85%
     );
     mask-image: radial-gradient(ellipse at center, #000 35%, transparent 85%);
+  }
+
+  /* Drifts with the pegboard, so the hooks stay on their pegs. */
+  .peg-keyboard {
+    transform: translate(
+      calc(var(--pan-x, 0px) * 2),
+      calc(var(--pan-y, 0px) * 2)
+    );
+  }
+
+  /* Hover: the keyboard swings from its hooks (the animation, on the link, so
+     it pivots at the top edge) while the image itself lifts and its shadow
+     deepens (the transition, on the image). */
+  .peg-keyboard-link {
+    transform-origin: 50% 0;
+  }
+  .peg-keyboard-link:hover,
+  .peg-keyboard-link:focus-visible {
+    animation: keyboard-swing 1000ms cubic-bezier(0.3, 0, 0.3, 1);
+  }
+  .peg-keyboard-img {
+    filter: drop-shadow(0 14px 16px rgba(0, 0, 0, 0.22));
+    transition:
+      transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      filter 320ms var(--ease-tile);
+  }
+  .peg-keyboard-link:hover .peg-keyboard-img,
+  .peg-keyboard-link:focus-visible .peg-keyboard-img {
+    transform: translateY(-6px) scale(1.04);
+    filter: drop-shadow(0 22px 22px rgba(0, 0, 0, 0.26));
   }
 
   /* The name sits on the plane. Transparent to the pointer except its link. */
@@ -186,6 +220,46 @@ html[data-theme="dark"] {
     transform: translate(-50%, calc(-50% + 18.1px));
     pointer-events: none;
   }
+}
+
+@keyframes keyboard-swing {
+  0% { transform: rotate(0deg); }
+  18% { transform: rotate(-1.2deg); }
+  40% { transform: rotate(0.9deg); }
+  60% { transform: rotate(-0.5deg); }
+  80% { transform: rotate(0.2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Liquid-glass pill: translucent fill with a bright top-left sheen, a blur +
+   saturation of whatever is behind it, a hairline rim and a soft drop shadow.
+   Used by the corner readouts (.glass-pill) and the dock (.glass). */
+.glass,
+.glass-pill {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-surface) 50%, transparent),
+    color-mix(in srgb, var(--color-surface) 14%, transparent)
+  );
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  backdrop-filter: blur(14px) saturate(180%);
+  border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.06),
+    0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.glass-pill {
+  border-radius: 9999px;
+}
+
+html[data-theme="dark"] .glass,
+html[data-theme="dark"] .glass-pill {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 6px 18px rgba(0, 0, 0, 0.5);
 }
 
 /* --------------------------------------------------------------------------- */

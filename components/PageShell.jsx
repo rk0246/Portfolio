@@ -29,7 +29,7 @@ export default function PageShell({
             {kicker}
           </p>
         )}
-        <h1 className="mt-3 font-display text-[clamp(2.25rem,7vw,4rem)] leading-[0.95] font-bold tracking-[-0.03em]">
+        <h1 className="mt-3 font-wordmark text-[clamp(2.25rem,7vw,4rem)] leading-[0.95] tracking-[0.01em]">
           {title}
           <span className="text-red">.</span>
         </h1>

@@ -1,4 +1,12 @@
 {
+  // The dev server on its own, for when you want a terminal without a preview
+  // tab: Run Task -> "dev". The usual way in is F5, which runs the same server
+  // via .vscode/launch.json and opens the preview alongside it.
+  //
+  // Deliberately not "runOn": "folderOpen" any more. Two independent starters
+  // on one port is a trap: an already-occupied 3000 makes `next dev` quietly
+  // move to 3001, so F5 would leave a second server running and preview that
+  // one instead of the one you had. One starter, one server.
   "version": "2.0.0",
   "tasks": [
     {
@@ -7,8 +15,7 @@
       "command": "npm run dev",
       "isBackground": true,
       "problemMatcher": [],
-      "presentation": { "reveal": "always", "panel": "dedicated" },
-      "runOptions": { "runOn": "folderOpen" }
+      "presentation": { "reveal": "always", "panel": "dedicated" }
     }
   ]
 }

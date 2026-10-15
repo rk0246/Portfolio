@@ -55,7 +55,7 @@ export default function DockIcon({ section, active, mouseX }) {
           className={`flex h-full w-full items-center justify-center rounded-xl
             transition-[color,background-color] duration-200 ease-[var(--ease-tile)]
             hover:bg-fill hover:text-red
-            ${active ? "text-[#ff6600]" : "text-text/70"}`}
+            ${active ? "text-red" : "text-text/70"}`}
         >
           <Icon name={section.icon} size={20} />
         </Link>
@@ -87,7 +87,7 @@ export default function DockIcon({ section, active, mouseX }) {
         <motion.span
           layoutId="dock-active"
           transition={{ type: "spring", stiffness: 500, damping: 38 }}
-          className="pointer-events-none absolute -bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[#ff6600]"
+          className="pointer-events-none absolute -bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-red"
         />
       )}
     </motion.li>

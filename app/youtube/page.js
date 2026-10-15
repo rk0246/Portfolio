@@ -44,7 +44,7 @@ export default function YouTubePage() {
         <div className="mt-5">
           <VideoEmbed id={featured.id} title={featured.title} priority />
           {featured.caption && (
-            <h3 className="mt-4 font-display text-2xl leading-tight font-bold tracking-tight">
+            <h3 className="mt-4 font-wordmark text-2xl leading-tight tracking-normal">
               {featured.caption}
             </h3>
           )}

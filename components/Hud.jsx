@@ -59,9 +59,9 @@ export default function Hud() {
       className="pointer-events-none fixed inset-0 z-40 hidden select-none font-mono font-medium
         text-[11px] tracking-wide text-muted md:block"
     >
-      <span className="absolute top-5 left-6 rounded-full bg-bg px-2.5 py-1">{time}</span>
-      <span className="absolute bottom-5 left-6 rounded-full bg-bg px-2.5 py-1">{viewport}</span>
-      <span className="absolute right-6 bottom-5 rounded-full bg-bg px-2.5 py-1">{zone}</span>
+      <span className="absolute top-5 left-6 glass-pill px-3 py-1.5">{time}</span>
+      <span className="absolute bottom-5 left-6 glass-pill px-3 py-1.5">{viewport}</span>
+      <span className="absolute right-6 bottom-5 glass-pill px-3 py-1.5">{zone}</span>
     </div>
   );
 }

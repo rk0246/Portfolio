@@ -25,7 +25,7 @@ export default function ProjectCard({ project }) {
 
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="flex items-baseline justify-between gap-3">
-          <h3 className="font-display text-xl font-bold tracking-tight">{project.title}</h3>
+          <h3 className="font-wordmark text-xl tracking-normal">{project.title}</h3>
           <span className="font-mono text-xs text-muted">{project.year}</span>
         </div>
 

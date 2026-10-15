@@ -1,0 +1,30 @@
+{
+  // Live preview. Press F5 (or pick "Live preview" in Run and Debug) to start
+  // the dev server and open the running site in an editor tab beside the code.
+  //
+  // Why it lands in-editor rather than in a real browser: serverReadyAction
+  // watches the terminal for Next's startup banner, lifts the URL out of it,
+  // and hands that URL to VSCode's "open external URI" plumbing — which
+  // .vscode/settings.json routes, for localhost, to the built-in Simple
+  // Browser. Nothing here hardcodes a port: the preview follows whatever port
+  // Next actually printed, so it still works when 3000 is taken.
+  //
+  // The pattern matches "Local:" only, never the "Network:" line below it, so
+  // the preview opens localhost and not the LAN address. The character class
+  // ends the URL at the first non-URL byte, which keeps the terminal's colour
+  // escape codes out of the captured address.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Live preview",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "serverReadyAction": {
+        "pattern": "Local:.+?(https?://[\\w.\\-:\\[\\]]+)",
+        "uriFormat": "%s",
+        "action": "openExternally"
+      }
+    }
+  ]
+}

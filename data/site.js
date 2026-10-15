@@ -23,7 +23,8 @@ export const site = {
      each row — they are separate on purpose, so the row can read "@ryankimyt"
      while pointing at a full URL.
 
-     All four point at real accounts. */
+     The first four point at real accounts; the last is a joke (it's a
+     rickroll). */
   socials: [
     {
       label: "LinkedIn",
@@ -44,6 +45,11 @@ export const site = {
       label: "Instagram",
       href: "https://www.instagram.com/ryankim.yt/",
       handle: "@ryankim.yt",
+    },
+    {
+      label: "OnlyFans",
+      href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      handle: "@ryankim",
     },
   ],
 };

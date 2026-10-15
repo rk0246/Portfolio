@@ -22,7 +22,7 @@ function Entry({ meta, title, subtitle, impact, tags }) {
   return (
     <li className="border-l-2 border-border pl-5 transition-colors hover:border-red">
       <p className="font-mono text-xs text-muted">{meta}</p>
-      <h3 className="mt-1.5 font-display text-xl font-bold tracking-tight">
+      <h3 className="mt-1.5 font-wordmark text-xl tracking-normal">
         {title}
       </h3>
       {subtitle && <p className="mt-0.5 text-sm text-red">{subtitle}</p>}
@@ -112,7 +112,7 @@ export default function ResumePage() {
               <p className="font-mono text-xs text-muted">
                 {entry.dates} · {entry.location}
               </p>
-              <h3 className="mt-1.5 font-display text-xl font-bold tracking-tight">
+              <h3 className="mt-1.5 font-wordmark text-xl tracking-normal">
                 {entry.school}
               </h3>
               {entry.degree && (

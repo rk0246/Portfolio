@@ -3,8 +3,8 @@
 import { useEffect } from "react";
 
 /** How far the canvas drifts from centre, in screen px, at the very edge. */
-const MAX_X = 24;
-const MAX_Y = 16;
+const MAX_X = 12;
+const MAX_Y = 8;
 /** Per-frame approach rate — lower is a longer, lazier glide. */
 const EASE = 0.075;
 

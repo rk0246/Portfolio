@@ -24,7 +24,7 @@ export default function ProjectsPage() {
         <p className="font-mono text-xs tracking-[0.2em] text-red uppercase">
           Coming soon
         </p>
-        <h2 className="mx-auto mt-4 max-w-md font-display text-2xl leading-tight font-bold tracking-tight">
+        <h2 className="mx-auto mt-4 max-w-md font-wordmark text-2xl leading-tight tracking-normal">
           A few things are still in progress.
         </h2>
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted">

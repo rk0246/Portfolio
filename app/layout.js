@@ -1,5 +1,4 @@
 import {
-  Space_Grotesk,
   Inter,
   JetBrains_Mono,
   Gasoek_One,
@@ -13,7 +12,8 @@ import {
 } from "@/components/Preferences";
 import { site } from "@/data/site";
 
-/* The wordmark only. Headings stay on Space Grotesk. */
+/* Headings and the home wordmark. Everything else is Inter (mono labels and
+   the corner readouts aside). */
 const gasoek = Gasoek_One({
   subsets: ["latin"],
   weight: "400",
@@ -21,16 +21,9 @@ const gasoek = Gasoek_One({
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["500", "700"],
-  variable: "--font-space-grotesk",
-  display: "swap",
-});
-
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-inter",
   display: "swap",
 });
@@ -62,7 +55,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} ${gasoek.variable}`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${gasoek.variable}`}
     >
       <head>
         {/* Applies the stored theme before first paint so dark users never

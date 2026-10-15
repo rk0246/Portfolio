@@ -1,17 +1,25 @@
 import { PLANE } from "@/data/nav";
 import PointerParallax from "./PointerParallax";
+import PegKeyboard from "./PegKeyboard";
+import PegCamera from "./PegCamera";
+import PegShelf from "./PegShelf";
+import PegBobblehead from "./PegBobblehead";
 
 /**
- * The canvas behind the home page: a faded pegboard dot pattern (.iso-dots)
- * and the name on a plane. PointerParallax drifts both together against the
- * cursor.
+ * The canvas behind the home page: the pegboard (.iso-dots) and the name on a
+ * plane. PointerParallax drifts both together against the cursor.
  *
- * Below md the dots are hidden and the plane is a plain padded stack.
+ * Below md the board is hidden and the plane is a plain padded stack.
  */
 export default function IsoStage({ children }) {
   return (
     <div className="iso-stage">
       <div className="iso-dots hidden md:block" aria-hidden="true" />
+
+      <PegKeyboard />
+      <PegCamera />
+      <PegShelf />
+      <PegBobblehead />
 
       <div
         className="iso-plane"

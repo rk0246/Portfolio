@@ -53,8 +53,7 @@ export default function Dock() {
            rather than a clipped or wrapped dock. From md up it never overflows, and
            overflow must be visible there or the hover labels get clipped. */
         className="flex max-w-[calc(100vw-1.5rem)] items-center gap-0 overflow-x-auto md:overflow-visible
-          rounded-2xl border border-border bg-surface/85 px-1 py-1.5
-          shadow-[0_8px_30px_rgba(0,0,0,0.12)] backdrop-blur-xl sm:gap-1 sm:rounded-[1.25rem] sm:px-2"
+          glass rounded-2xl px-1 py-1.5 sm:gap-1 sm:rounded-[1.25rem] sm:px-2"
       >
         {dockSections.map((section) => (
           <DockIcon
