@@ -22,7 +22,7 @@ export default function AboutPage() {
       {/* Bio and portrait. The prose column is capped near 62ch regardless of
           how wide the shell gets — a full-width paragraph is unreadable. */}
       <div className="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_13rem] md:gap-14">
-        <p className="max-w-[62ch] text-base leading-relaxed sm:text-lg">
+        <p className="max-w-[62ch] type-lead">
           {about.bio}
         </p>
 
@@ -48,27 +48,6 @@ export default function AboutPage() {
 
       <Highlights label={about.highlightsLabel} items={highlights} />
 
-      {/* Every rule on this page carries the same air — 6/7 above, 6/8 below —
-          so the header divider and this one read as one rhythm. */}
-      <section className="mt-6 border-t border-border pt-6 sm:mt-7 sm:pt-8">
-        <h2 className="font-mono text-xs tracking-[0.2em] text-muted uppercase">
-          {about.outsideOfWorkLabel}
-        </h2>
-
-        {/* Text only — no borders, no cards. The grid is the only structure. */}
-        <dl className="mt-8 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
-          {about.hobbies.map((hobby) => (
-            <div key={hobby.title}>
-              <dt className="font-display text-lg font-bold tracking-tight">
-                {stem(hobby.title)}
-              </dt>
-              <dd className="mt-1.5 text-sm leading-relaxed text-muted">
-                {hobby.description}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
     </PageShell>
   );
 }

@@ -25,7 +25,7 @@ export default async function PhotographyPage() {
       ]}
     >
       {error ? (
-        <p className="font-mono text-sm text-muted">{error}</p>
+        <p className="type-meta">{error}</p>
       ) : (
         <PhotoGrid photos={photos} />
       )}

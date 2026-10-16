@@ -22,7 +22,7 @@ export default function Highlights({ label, items }) {
     >
       <h2
         id="highlights-heading"
-        className="font-mono text-xs tracking-[0.2em] text-muted uppercase"
+        className="type-eyebrow"
       >
         {label}
       </h2>

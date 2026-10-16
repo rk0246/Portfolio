@@ -36,10 +36,10 @@ export default function HighlightItem({ item, index, photoStart }) {
 
   const text = (
     <div className="min-w-0">
-      <h3 className="font-display text-lg font-bold tracking-tight">
+      <h3 className="type-title">
         {stem(item.title)}
       </h3>
-      <p className="mt-1.5 max-w-[62ch] text-sm leading-relaxed text-muted">
+      <p className="mt-2 max-w-[70ch] type-body">
         {item.body}
       </p>
 
@@ -48,7 +48,7 @@ export default function HighlightItem({ item, index, photoStart }) {
           {item.tags.map((tag) => (
             <li
               key={tag}
-              className="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted"
+              className="rounded-full border border-border px-2.5 py-0.5 type-ui text-[13px] text-muted"
             >
               {tag}
             </li>
@@ -59,7 +59,7 @@ export default function HighlightItem({ item, index, photoStart }) {
       {item.link && (
         <Link
           href={item.link.href}
-          className="mt-3 inline-block text-sm font-medium transition-colors hover:text-red"
+          className="mt-3 inline-block type-ui transition-colors hover:text-red"
         >
           {item.link.label} <span aria-hidden="true">→</span>
         </Link>
@@ -78,7 +78,7 @@ export default function HighlightItem({ item, index, photoStart }) {
         className="absolute top-[3px] left-0 h-2.5 w-2.5 bg-red md:top-[5px] md:left-[155px]"
       />
 
-      <p className="font-mono text-xs tracking-[0.2em] text-muted uppercase md:pt-1">
+      <p className="type-data md:pt-1.5">
         {item.when}
       </p>
 

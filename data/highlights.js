@@ -37,7 +37,7 @@ export const highlights = [
   {
     when: "2026",
     title: "Yellowstone + Grand Teton",
-    body: "Best sunset of my life",
+    body: "A photographer's paradise!",
     images: [
       {
         src: "/about/yellowstone-2026-eagle.jpg",
@@ -62,6 +62,28 @@ export const highlights = [
         alt: "A steaming hot spring with a turquoise centre and rust-orange edges, pine forest behind",
         width: 1500,
         height: 2000,
+      },
+    ],
+  },
+  {
+    when: "2026",
+    title: "CMU Club Baseball",
+    body: "The goal is to hit a 400 feet bomb to center field on the first pitch of the game",
+    images: [
+      {
+        src: "/about/baseball-2026-dugout.jpg",
+        alt: "Two teammates in red-pinstriped Carnegie Mellon baseball jerseys smiling in a wooden dugout",
+        width: 2000,
+        height: 1500,
+      },
+    ],
+    videos: [
+      {
+        src: "/about/baseball-2026-clip.mp4",
+        poster: "/about/baseball-2026-clip-poster.jpg",
+        alt: "A short clip on a campus lawn, a baseball glove in the foreground and a glass-fronted building behind at sunset",
+        width: 720,
+        height: 1280,
       },
     ],
   },
@@ -115,7 +137,7 @@ export const highlights = [
   {
     when: "2024",
     title: "First winter in Pittsburgh",
-    body: "California kid meets snow",
+    body: "California kid meets snow for the first time",
     images: [
       {
         src: "/about/pittsburgh-winter-2024.jpg",

@@ -21,13 +21,13 @@ export default function ProjectsPage() {
   return (
     <PageShell kicker="In progress" title="Projects" lede="">
       <div className="rounded-2xl border border-dashed border-border px-6 py-14 text-center sm:py-20">
-        <p className="font-mono text-xs tracking-[0.2em] text-red uppercase">
+        <p className="type-eyebrow">
           Coming soon
         </p>
-        <h2 className="mx-auto mt-4 max-w-md font-wordmark text-2xl leading-tight tracking-normal">
+        <h2 className="mx-auto mt-4 max-w-md type-title">
           A few things are still in progress.
         </h2>
-        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted">
+        <p className="mx-auto mt-3 max-w-md type-body">
           Check back, or have a look at the sections that are up to date.
         </p>
 
@@ -37,7 +37,7 @@ export default function ProjectsPage() {
               <Link
                 href={item.href}
                 className="inline-flex items-center rounded-xl border border-border px-4 py-2.5
-                  font-mono text-xs tracking-wide transition-[border-color,color,transform]
+                  type-ui transition-[border-color,color,transform]
                   duration-200 ease-[var(--ease-tile)] hover:-translate-y-0.5 hover:border-red
                   hover:text-red"
               >

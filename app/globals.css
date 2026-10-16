@@ -5,7 +5,7 @@
 
    Tailwind v4 has no tailwind.config.js — the theme lives here in @theme and
    every token below becomes a utility (--color-red -> text-red/bg-red,
-   --font-display -> font-display, etc).
+   --color-muted -> text-muted, etc).
 
    One accent: red. It carries identity and current state (the active dock item,
    a selection, a company name) as well as every interaction (hover, focus,
@@ -25,11 +25,11 @@
   --color-grid: rgba(0, 0, 0, 0.085);
   --color-red: #c1121f;
 
-  --font-wordmark: var(--font-gasoek), ui-sans-serif, system-ui, sans-serif;
-  --font-display:
-    var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* Two families only. There is deliberately no mono: --font-mono is unset
+     so the font-mono utility does not exist. */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-display: var(--font-gasoek), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: initial;
 
   --ease-tile: cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -59,7 +59,21 @@ html[data-theme="dark"] {
     color: var(--color-text);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     overflow-x: hidden;
+  }
+
+  /* Preflight would set these in the browser's monospace. */
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: inherit;
+  }
+
+  ::placeholder {
+    font-size: 14px;
   }
 
   ::selection {
@@ -73,6 +87,104 @@ html[data-theme="dark"] {
     outline-offset: 3px;
     border-radius: 4px;
   }
+}
+
+
+/* ---------------------------------------------------------------------------
+   Type roles. Two families: Gasoek One (type-display, the home name and page
+   H1s only) and Inter (everything else). Utilities rather than components so
+   they take variants (md:, hover:) and a plain utility after them (a colour,
+   a size) still wins.
+--------------------------------------------------------------------------- */
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility type-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 0.95;
+}
+
+/* Entry/section titles: an institution, a job, a project. Inter at 800 —
+   display-weight, but lighter than Gasoek (which has only the one weight). */
+@utility type-title {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--color-text);
+  @media (min-width: 768px) {
+    font-size: 28px;
+  }
+}
+
+/* Card and sub-headings. */
+@utility type-heading {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+/* Section labels: ABOUT, EDUCATION, OUTSIDE OF WORK. */
+@utility type-eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+@utility type-lead {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.6;
+  @media (min-width: 768px) {
+    font-size: 20px;
+  }
+}
+
+@utility type-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.65;
+  color: color-mix(in srgb, var(--color-text) 85%, transparent);
+}
+
+/* Secondary lines: honours, captions, credits. */
+@utility type-meta {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+/* Dates, years, counts, EXIF, clocks: same family, aligned figures. */
+@utility type-data {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+}
+
+/* Buttons, chips, tooltips, links in controls. */
+@utility type-ui {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 /* ---------------------------------------------------------------------------
@@ -101,29 +213,6 @@ html[data-theme="dark"] {
     position: relative;
     height: 100dvh;
     overflow: hidden;
-  }
-
-  /* The bezel: a rounded window cut into a frame. The huge outer spread is the
-     frame itself (clipped by .iso-stage); the inset shadows give the lip some
-     depth. Sits over the plane but takes no pointer events. */
-  .iso-stage::after {
-    content: "";
-    position: absolute;
-    inset: 14px;
-    border-radius: 14px;
-    pointer-events: none;
-    z-index: 1;
-    box-shadow:
-      0 0 0 60px #141414,
-      inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-      inset 0 2px 14px rgba(0, 0, 0, 0.35);
-  }
-
-  html[data-theme="dark"] .iso-stage::after {
-    box-shadow:
-      0 0 0 60px #262626,
-      inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-      inset 0 2px 14px rgba(0, 0, 0, 0.5);
   }
 
   /* The plane is a big box over the whole stage; it must not swallow clicks
@@ -372,19 +461,17 @@ html[data-theme="dark"] .polaroid:hover {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
-/* Caption written in the thick bottom border. Dark ink, always — it sits on
+/* Caption written in the thick bottom border (type-meta size). Dark ink, always — it sits on
    the paper, not the page. */
 .polaroid-caption {
   position: absolute;
   right: 10px;
-  bottom: 7px;
+  bottom: 4px;
   left: 10px;
   overflow: hidden;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  line-height: 14px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #2b2b2b;
@@ -392,15 +479,207 @@ html[data-theme="dark"] .polaroid:hover {
 
 /* --------------------------------------------------------------------------- */
 
+/* ---------------------------------------------------------------------------
+   /about "Outside of work" bento tiles.
+--------------------------------------------------------------------------- */
+.interest-tile {
+  background: color-mix(in srgb, var(--color-text) 3%, var(--color-bg));
+  transition:
+    transform 220ms var(--ease-tile),
+    border-color 220ms var(--ease-tile),
+    box-shadow 220ms var(--ease-tile);
+}
+.interest-tile:hover,
+.interest-tile:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--color-red);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+}
+html[data-theme="dark"] .interest-tile:hover,
+html[data-theme="dark"] .interest-tile:focus-visible {
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
+}
+.interest-tile:focus-visible {
+  border-radius: 1rem;
+}
+
+/* /youtube: each video as a card, same surface as the about tiles. The
+   thumbnail's own border and corners give way to the card's. */
+.video-card {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--color-text) 3%, var(--color-bg));
+  transition:
+    transform 220ms var(--ease-tile),
+    border-color 220ms var(--ease-tile),
+    box-shadow 220ms var(--ease-tile);
+}
+.video-card:hover,
+.video-card:focus-within {
+  transform: translateY(-4px);
+  border-color: var(--color-red);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+}
+html[data-theme="dark"] .video-card:hover,
+html[data-theme="dark"] .video-card:focus-within {
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
+}
+.video-card .aspect-video {
+  border: 0;
+  border-radius: 0;
+}
 @media (prefers-reduced-motion: reduce) {
-  /* Highlights: entries visible, no hover lift. These beat
+  .video-card:hover,
+  .video-card:focus-within {
+    transform: none;
+  }
+}
+
+/* Gaming: chips lift and turn accent one after another on hover. */
+.chip-lift {
+  transition:
+    transform 200ms var(--ease-tile),
+    border-color 200ms var(--ease-tile),
+    color 200ms var(--ease-tile);
+}
+.interest-tile:hover .chip-lift {
+  transform: translateY(-2px);
+  border-color: var(--color-red);
+  color: var(--color-red);
+}
+
+/* Audiophile: equalizer, paused unless on screen or hovered. */
+.eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 11px;
+}
+.eq span {
+  width: 2px;
+  height: 100%;
+  background: var(--color-red);
+  transform-origin: bottom;
+  transform: scaleY(0.4);
+  animation: eq-bounce 900ms ease-in-out infinite;
+  animation-delay: calc(var(--i) * -170ms);
+  animation-play-state: paused;
+}
+.eq[data-on="true"] span,
+.interest-tile:hover .eq span {
+  animation-play-state: running;
+}
+@keyframes eq-bounce {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* Tech: blinking caret after the "now" line. */
+.caret::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 1em;
+  margin-left: 3px;
+  vertical-align: -2px;
+  background: currentColor;
+  animation: caret-blink 1s steps(1) infinite;
+}
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Cardistry: a fanned deck of card backs in the corner. */
+.deck {
+  position: absolute;
+  top: 26px;
+  right: 34px;
+  width: 38px;
+  height: 54px;
+}
+.deck span {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid var(--color-red);
+  border-radius: 5px;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      color-mix(in srgb, var(--color-red) 16%, transparent) 0 2px,
+      transparent 2px 6px
+    ),
+    var(--color-surface);
+  transform-origin: 50% 120%;
+  transform: rotate(calc((var(--i) - 2) * 6deg));
+  transition: transform 300ms var(--ease-tile);
+}
+.interest-tile:hover .deck span,
+.interest-tile:focus-visible .deck span {
+  transform: rotate(calc((var(--i) - 2) * 15deg));
+}
+
+/* Photography: three small prints in the corner. */
+.mini-prints {
+  position: absolute;
+  top: 24px;
+  right: 40px;
+  width: 46px;
+  height: 56px;
+}
+.mini-prints span {
+  position: absolute;
+  inset: 0;
+  padding: 4px 4px 12px;
+  border-radius: 2px;
+  background: #ffffff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  transform: translateX(calc((var(--i) - 1) * 4px))
+    rotate(calc((var(--i) - 1) * 7deg));
+  transition: transform 300ms var(--ease-tile);
+}
+.mini-prints span::after {
+  content: "";
+  display: block;
+  height: 100%;
+  background: color-mix(in srgb, var(--color-red) 22%, #cfcfcf);
+}
+html[data-theme="dark"] .mini-prints span {
+  background: #f2ede3;
+}
+.interest-tile:hover .mini-prints span,
+.interest-tile:focus-visible .mini-prints span {
+  transform: translateX(calc((var(--i) - 1) * 18px))
+    rotate(calc((var(--i) - 1) * 14deg));
+}
+
+/* --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Highlights and interests: entries visible, no hover lift. These beat
      Framer Motion's inline styles, so the end state never depends on JS. */
-  .highlight-reveal {
+  .highlight-reveal,
+  .interest-reveal {
     opacity: 1 !important;
     transform: none !important;
   }
   .polaroid:hover {
     transform: var(--base);
+  }
+  .interest-tile:hover,
+  .interest-tile:focus-visible {
+    transform: none;
+  }
+  .eq span,
+  .caret::after {
+    animation: none !important;
   }
 
   *,

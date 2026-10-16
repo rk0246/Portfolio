@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Icon from "./Icon";
 
 /**
  * Click-to-load YouTube facade.
@@ -57,12 +56,26 @@ export default function VideoEmbed({ id, title, priority = false }) {
             />
           )}
 
-          <span
-            className="absolute top-1/2 left-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2
-              items-center justify-center rounded-full bg-red text-white shadow-lg
-              transition-transform duration-250 ease-[var(--ease-tile)] group-hover:scale-110"
-          >
-            <Icon name="play" size={26} filled className="ml-1" />
+          {/* Overlay covering the whole thumbnail, centring the circle with
+              grid — no percentage offsets or translates to drift. */}
+          <span className="absolute inset-0 grid place-items-center">
+            <span
+              className="grid aspect-square w-14 shrink-0 place-items-center rounded-full bg-red
+                text-white shadow-lg transition-transform duration-250 ease-[var(--ease-tile)]
+                group-hover:scale-110 md:w-16"
+            >
+              {/* 40% of the circle. The path sits right of the viewBox centre
+                  on purpose (the usual optical nudge for a right-pointing
+                  triangle), so the box itself is centred with no offset. */}
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                className="block w-2/5"
+                fill="currentColor"
+              >
+                <path d="M8.5 5.5 L8.5 18.5 L19 12 Z" />
+              </svg>
+            </span>
           </span>
         </button>
       )}

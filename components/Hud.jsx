@@ -56,8 +56,7 @@ export default function Hud() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-40 hidden select-none font-mono font-medium
-        text-[11px] tracking-wide text-muted md:block"
+      className="pointer-events-none fixed inset-0 z-40 hidden select-none type-data md:block"
     >
       <span className="absolute top-5 left-6 glass-pill px-3 py-1.5">{time}</span>
       <span className="absolute bottom-5 left-6 glass-pill px-3 py-1.5">{viewport}</span>

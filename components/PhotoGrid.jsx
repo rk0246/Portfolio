@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import PhotoFrame from "./PhotoFrame";
 import Lightbox from "./Lightbox";
+import { displayLocation } from "@/lib/locations";
 
 const ALL = "all";
 
@@ -37,7 +38,7 @@ export default function PhotoGrid({ photos }) {
   const activeName = locations.find((l) => l.slug === active)?.name;
 
   if (photos.length === 0) {
-    return <p className="font-mono text-sm text-muted">No photos yet.</p>;
+    return <p className="type-meta">No photos yet.</p>;
   }
 
   return (
@@ -56,7 +57,8 @@ export default function PhotoGrid({ photos }) {
           {locations.map((location) => (
             <Chip
               key={location.slug}
-              label={location.name}
+              label={displayLocation(location.name)}
+              fullLabel={location.name}
               count={location.count}
               selected={active === location.slug}
               onSelect={() => {
@@ -94,21 +96,34 @@ export default function PhotoGrid({ photos }) {
   );
 }
 
-function Chip({ label, count, selected, onSelect }) {
+/**
+ * type-ui label, type-data count. The border is always 1px (red when active), so
+ * selecting a chip never changes its size.
+ */
+function Chip({ label, fullLabel = label, count, selected, onSelect }) {
+  const description = `${fullLabel}, ${count} ${count === 1 ? "photo" : "photos"}`;
   return (
     <button
       type="button"
       onClick={onSelect}
       aria-pressed={selected}
-      className={`rounded-full border px-3.5 py-1.5 font-mono text-xs transition-colors duration-150
+      aria-label={description}
+      title={description}
+      className={`rounded-full border px-4 py-2 type-ui text-[13px]
+        whitespace-nowrap transition-colors duration-150 focus-visible:outline-2
+        focus-visible:outline-offset-2 focus-visible:outline-red
         ${
           selected
             ? "border-red bg-red text-white"
-            : "border-border text-muted hover:border-red hover:text-red"
+            : "border-border text-text hover:border-text"
         }`}
     >
       {label}
-      <span className={`ml-1.5 tabular-nums ${selected ? "text-white/70" : "text-muted/60"}`}>
+      <span
+        className={`ml-2 type-data text-xs ${
+          selected ? "text-[color-mix(in_srgb,var(--color-red)_30%,white)]" : ""
+        }`}
+      >
         {count}
       </span>
     </button>

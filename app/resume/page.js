@@ -13,52 +13,67 @@ export const metadata = {
   description: `Education, experience, projects, and skills for ${site.name}.`,
 };
 
+/** The 8px accent square where an entry meets the left rail — the only
+    accent on an entry besides link hovers. Centred on the 2px rail. */
+function Marker() {
+  return (
+    <span
+      aria-hidden="true"
+      className="absolute top-[5px] -left-[5px] h-2 w-2 bg-red"
+    />
+  );
+}
+
+/** Small outlined pills: coursework, tags. */
+function Pills({ items, label }) {
+  return (
+    <ul aria-label={label} className="mt-3.5 flex flex-wrap gap-1.5">
+      {items.map((item) => (
+        <li
+          key={item}
+          className="rounded-full border border-border px-2.5 py-0.5 type-ui text-[13px] text-muted"
+        >
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+const entryClass = "relative max-w-[70ch] border-l-2 border-border pl-5";
+
 /**
- * Experience and Projects & Awards are the same card in two registers: a dated
- * meta line, the organisation in display type, the role in the accent, then
- * bullets and tags. One component so the two sections can't drift apart.
+ * Experience and Projects & Awards are the same entry in two registers: a dated
+ * meta line, the organisation as the title, the role under it, then bullets and
+ * tags. One component so the two sections can't drift apart.
  */
 function Entry({ meta, title, subtitle, impact, tags }) {
   return (
-    <li className="border-l-2 border-border pl-5 transition-colors hover:border-red">
-      <p className="font-mono text-xs text-muted">{meta}</p>
-      <h3 className="mt-1.5 font-wordmark text-xl tracking-normal">
-        {title}
-      </h3>
-      {subtitle && <p className="mt-0.5 text-sm text-red">{subtitle}</p>}
+    <li className={entryClass}>
+      <Marker />
+      <p className="type-data">{meta}</p>
+      <h3 className="mt-1.5 type-title">{title}</h3>
+      {subtitle && (
+        <p className="mt-1 text-[17px] font-medium text-text">{subtitle}</p>
+      )}
 
       {impact?.length > 0 && (
         <ul className="mt-3 space-y-1.5">
           {impact.map((line) => (
-            <li key={line} className="text-sm leading-relaxed text-muted">
+            <li key={line} className="max-w-[70ch] type-body">
               {line}
             </li>
           ))}
         </ul>
       )}
 
-      {tags?.length > 0 && (
-        <ul className="mt-3.5 flex flex-wrap gap-1.5">
-          {tags.map((tag) => (
-            <li
-              key={tag}
-              className="rounded-md border border-border px-2 py-0.5 font-mono text-[11px] text-muted"
-            >
-              {tag}
-            </li>
-          ))}
-        </ul>
-      )}
+      {tags?.length > 0 && <Pills items={tags} label="Tags" />}
     </li>
   );
 }
 
 function SectionHeading({ children }) {
-  return (
-    <h2 className="font-mono text-xs tracking-[0.2em] text-muted uppercase">
-      {children}
-    </h2>
-  );
+  return <h2 className="type-eyebrow">{children}</h2>;
 }
 
 export default function ResumePage() {
@@ -78,7 +93,7 @@ export default function ResumePage() {
           href={site.resumePdf}
           download
           className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2.5
-            font-mono text-xs tracking-wide transition-[border-color,color,transform] duration-200
+            type-ui transition-[border-color,color,transform] duration-200
             ease-[var(--ease-tile)] hover:-translate-y-0.5 hover:border-red hover:text-red"
         >
           <Icon name="download" size={15} />
@@ -91,7 +106,7 @@ export default function ResumePage() {
             target="_blank"
             rel="noreferrer noopener"
             className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2.5
-              font-mono text-xs tracking-wide transition-[border-color,color,transform] duration-200
+              type-ui transition-[border-color,color,transform] duration-200
               ease-[var(--ease-tile)] hover:-translate-y-0.5 hover:border-red hover:text-red"
           >
             LinkedIn
@@ -105,32 +120,26 @@ export default function ResumePage() {
         <SectionHeading>Education</SectionHeading>
         <ol className="mt-6 space-y-9">
           {education.map((entry) => (
-            <li
-              key={entry.school}
-              className="border-l-2 border-border pl-5 transition-colors hover:border-red"
-            >
-              <p className="font-mono text-xs text-muted">
+            <li key={entry.school} className={entryClass}>
+              <Marker />
+              <p className="type-data">
                 {entry.dates} · {entry.location}
               </p>
-              <h3 className="mt-1.5 font-wordmark text-xl tracking-normal">
-                {entry.school}
-              </h3>
+              <h3 className="mt-1.5 type-title">{entry.school}</h3>
               {entry.degree && (
-                <p className="mt-0.5 text-sm text-red">{entry.degree}</p>
+                <p className="mt-1 text-[17px] font-medium text-text">
+                  {entry.degree}
+                </p>
               )}
 
-              {/* Short attribute list, so one mono line rather than a stack. */}
               {entry.honors?.length > 0 && (
-                <p className="mt-2.5 font-mono text-xs text-muted">
-                  {entry.honors.join("  ·  ")}
+                <p className="mt-2.5 type-meta tnum">
+                  {entry.honors.join(" · ")}
                 </p>
               )}
 
               {entry.coursework?.length > 0 && (
-                <p className="mt-3 text-sm leading-relaxed text-muted">
-                  <span className="text-text">Relevant coursework</span> —{" "}
-                  {entry.coursework.join(", ")}
-                </p>
+                <Pills items={entry.coursework} label="Relevant coursework" />
               )}
             </li>
           ))}
@@ -174,8 +183,8 @@ export default function ResumePage() {
         <dl className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {skills.map((group) => (
             <div key={group.group}>
-              <dt className="font-mono text-xs text-red">{group.group}</dt>
-              <dd className="mt-2 text-sm leading-relaxed text-muted">
+              <dt className="type-ui text-text">{group.group}</dt>
+              <dd className="mt-1.5 type-meta">
                 {group.items.join(", ")}
               </dd>
             </div>

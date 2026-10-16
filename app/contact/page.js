@@ -17,8 +17,8 @@ export default function ContactPage() {
     >
       <a
         href={`mailto:${site.email}`}
-        className="group inline-flex items-baseline gap-3 font-display
-          text-[clamp(1.5rem,5vw,2.75rem)] font-bold tracking-tight
+        className="group inline-flex items-baseline gap-3 type-ui
+          text-[clamp(1.5rem,5vw,2.75rem)] tracking-tight
           transition-colors duration-200 hover:text-red"
       >
         {site.email}
@@ -27,13 +27,13 @@ export default function ContactPage() {
         </span>
       </a>
 
-      <p className="mt-4 flex items-center gap-1.5 font-mono text-xs text-muted">
+      <p className="mt-4 flex items-center gap-1.5 type-meta">
         <Icon name="pin" size={14} />
         {site.location}
       </p>
 
       <section className="mt-14 border-t border-border pt-10">
-        <h2 className="font-mono text-xs tracking-[0.2em] text-muted uppercase">
+        <h2 className="type-eyebrow">
           Elsewhere
         </h2>
         <ul className="mt-6 divide-y divide-border border-y border-border">
@@ -46,11 +46,11 @@ export default function ContactPage() {
                 className="group flex items-baseline justify-between gap-4 py-4
                   transition-colors hover:text-red"
               >
-                <span className="flex items-center gap-3 font-display text-lg font-bold tracking-tight">
+                <span className="flex items-center gap-3 type-heading">
                   <BrandIcon name={social.icon} size={20} />
                   {social.label}
                 </span>
-                <span className="flex items-center gap-2 font-mono text-xs text-muted transition-colors group-hover:text-red">
+                <span className="flex items-center gap-2 type-meta transition-colors group-hover:text-red">
                   {social.handle}
                   <Icon name="arrowUpRight" size={13} />
                 </span>

@@ -71,7 +71,7 @@ export default function DockIcon({ section, active, mouseX }) {
       >
         <span
           className="mb-3 block translate-y-2 scale-90 whitespace-nowrap rounded-lg bg-text
-            px-2.5 py-1 font-mono text-[11px] tracking-tight text-bg opacity-0
+            px-2.5 py-1 type-ui text-[13px] text-bg opacity-0
             shadow-[0_6px_16px_rgba(0,0,0,0.18)] relative
             transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)]
             group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100

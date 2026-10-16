@@ -2,10 +2,10 @@
  * /about — every word on the page lives here.
  *
  * `app/about/page.js` only lays these values out; it hardcodes no copy. Edit
- * the bio, add or remove a hobby, rename a label — the page follows without
+ * the bio or rename a label — the page follows without
  * any change to the component.
  *
- * On periods: headings and hobby titles render without a trailing period;
+ * On periods: headings render without a trailing period;
  * write them with or without one — the page strips it.
  */
 export const about = {
@@ -23,37 +23,6 @@ export const about = {
   portraitHeight: 1448,
   /* Entries for the Highlights timeline live in data/highlights.js. */
   highlightsLabel: "HIGHLIGHTS",
+  /* The tiles under it live in data/interests.js. */
   outsideOfWorkLabel: "OUTSIDE OF WORK",
-  hobbies: [
-    {
-      title: "Audiophile",
-      description:
-        "Two-channel systems and critical listening — home audio setups, headphone comparisons, and researching gear more than any budget really justifies.",
-    },
-    {
-      title: "Sports",
-      description:
-        "Soccer, playing center midfield on weekends, and a lifelong following of the Los Angeles Dodgers.",
-    },
-    {
-      title: "Gaming",
-      description:
-        "A mix of genres in rotation — Marvel Rivals, Subnautica, and StarCraft II.",
-    },
-    {
-      title: "Cardistry",
-      description:
-        "Card flourishing and sleight-of-hand, practiced more for the craft of it than performance.",
-    },
-    {
-      title: "Photography + Filmmaking",
-      description:
-        "Shooting and editing photo and video work, from personal projects to what's featured elsewhere on this site.",
-    },
-    {
-      title: "Tech",
-      description:
-        "Building and upgrading PCs, and keeping up with the latest hardware and component releases.",
-    },
-  ],
 };

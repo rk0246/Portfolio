@@ -25,15 +25,15 @@ export default function PageShell({
     >
       <header className="border-b border-border pb-8 sm:pb-10">
         {kicker && (
-          <p className="font-mono text-xs tracking-[0.2em] text-muted uppercase">
+          <p className="type-eyebrow">
             {kicker}
           </p>
         )}
-        <h1 className="mt-3 font-wordmark text-[clamp(2.25rem,7vw,4rem)] leading-[0.95] tracking-[0.01em]">
+        <h1 className="mt-3 type-display text-[clamp(2.25rem,7vw,4rem)]">
           {title}
         </h1>
         {ledeParagraphs.length > 0 && (
-          <div className="mt-4 max-w-2xl space-y-4 text-base text-muted sm:text-lg">
+          <div className="mt-4 max-w-2xl space-y-4 type-lead text-muted">
             {ledeParagraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}

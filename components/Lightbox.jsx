@@ -129,7 +129,7 @@ export default function Lightbox({ photos, index, onClose, onIndex }) {
             bg-bg/95 p-4 backdrop-blur-sm outline-none sm:p-8"
         >
           <div className="absolute right-3 top-3 flex items-center gap-1 sm:right-5 sm:top-5">
-            <span className="mr-2 font-mono text-xs tabular-nums text-muted">
+            <span className="mr-2 type-data">
               {index + 1} / {photos.length}
             </span>
             <Control
@@ -199,21 +199,21 @@ function Meta({ photo }) {
 
   return (
     <figcaption className="flex w-full flex-col items-center gap-2.5 text-center">
-      {photo.caption && <p className="text-sm">{photo.caption}</p>}
+      {photo.caption && <p className="type-meta text-text">{photo.caption}</p>}
 
       {stats.length > 0 && (
         <dl className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1.5">
           {stats.map(([label, value]) => (
             <div key={label} className="flex items-baseline gap-1.5">
-              <dt className="font-mono text-[10px] uppercase tracking-wider text-muted">{label}</dt>
-              <dd className="font-mono text-sm tabular-nums">{value}</dd>
+              <dt className="type-data">{label}</dt>
+              <dd className="type-data text-text">{value}</dd>
             </div>
           ))}
         </dl>
       )}
 
       {(photo.locationName || exif.camera) && (
-        <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 font-mono text-[11px] text-muted">
+        <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 type-data">
           {photo.locationName && (
             <span className="inline-flex items-center gap-1">
               <Icon name="pin" size={12} />

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import IsoStage from "@/components/IsoStage";
 import Hud from "@/components/Hud";
+import KoiPond, { PondControls } from "@/components/home/KoiPond";
 import { site } from "@/data/site";
 
 export default function HomePage() {
@@ -10,20 +11,23 @@ export default function HomePage() {
 
   return (
     <>
+      {/* Decorative canvas behind everything; starts after hydration. */}
+      <KoiPond />
+
       <IsoStage>
         {/* The only thing on the plane. Navigation lives entirely in the dock. */}
         <div className="iso-name">
-          <p className="font-mono text-xs tracking-[0.2em] text-muted uppercase md:hidden">
+          <p className="type-eyebrow md:hidden">
             {site.role} · {site.location}
           </p>
           <h1
             aria-label={site.name}
-            className="mt-4 font-wordmark text-[clamp(2.6rem,9vw,7.8rem)] uppercase leading-[1.1538]
+            className="mt-4 type-display text-[clamp(2.6rem,9vw,7.8rem)] uppercase leading-[1.1538]
               tracking-[0.06em] md:mt-0 md:text-center"
           >
             {/* Blocks rather than a wrapped line, so the shorter name centres
                 under the longer one. */}
-            <Link href="/resume" aria-label={`${site.name}, resume`}>
+            <Link href="/about" aria-label={`${site.name}, about`}>
               <span aria-hidden="true" className="block">
                 <span className="name-line">{firstName}</span>
               </span>
@@ -34,13 +38,14 @@ export default function HomePage() {
               )}
             </Link>
           </h1>
-          <p className="mt-5 max-w-xl text-base text-muted md:hidden">
+          <p className="mt-5 max-w-xl type-body text-muted md:hidden">
             {site.tagline}
           </p>
         </div>
       </IsoStage>
 
       <Hud />
+      <PondControls />
     </>
   );
 }

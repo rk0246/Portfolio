@@ -25,17 +25,17 @@ export default function ProjectCard({ project }) {
 
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="flex items-baseline justify-between gap-3">
-          <h3 className="font-wordmark text-xl tracking-normal">{project.title}</h3>
-          <span className="font-mono text-xs text-muted">{project.year}</span>
+          <h3 className="type-heading">{project.title}</h3>
+          <span className="type-data">{project.year}</span>
         </div>
 
-        <p className="flex-1 text-sm leading-relaxed text-muted">{project.description}</p>
+        <p className="flex-1 type-body">{project.description}</p>
 
         <ul className="flex flex-wrap gap-1.5">
           {project.tags.map((tag) => (
             <li
               key={tag}
-              className="rounded-md border border-border px-2 py-0.5 font-mono text-[11px] text-muted"
+              className="rounded-md border border-border px-2 py-0.5 type-ui text-[13px] text-muted"
             >
               {tag}
             </li>
@@ -50,7 +50,7 @@ export default function ProjectCard({ project }) {
                   href={link.href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="inline-flex items-center gap-1 font-mono text-xs text-text
+                  className="inline-flex items-center gap-1 type-ui text-text
                     transition-colors hover:text-red"
                 >
                   {link.label}

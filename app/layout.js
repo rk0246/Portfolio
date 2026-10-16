@@ -1,6 +1,5 @@
 import {
   Inter,
-  JetBrains_Mono,
   Gasoek_One,
 } from "next/font/google";
 import "./globals.css";
@@ -12,8 +11,8 @@ import {
 } from "@/components/Preferences";
 import { site } from "@/data/site";
 
-/* Headings and the home wordmark. Everything else is Inter (mono labels and
-   the corner readouts aside). */
+/* Two fonts, nothing else: Gasoek One for the largest display moments (the
+   home name and page H1s), Inter for all other text. */
 const gasoek = Gasoek_One({
   subsets: ["latin"],
   weight: "400",
@@ -23,15 +22,8 @@ const gasoek = Gasoek_One({
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  axes: ["opsz"],
   variable: "--font-inter",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-jetbrains-mono",
   display: "swap",
 });
 
@@ -55,7 +47,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${jetbrainsMono.variable} ${gasoek.variable}`}
+      className={`${inter.variable} ${gasoek.variable}`}
     >
       <head>
         {/* Applies the stored theme before first paint so dark users never
@@ -68,7 +60,7 @@ export default function RootLayout({ children }) {
             href="#main"
             className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60]
               focus:rounded-lg focus:border focus:border-border focus:bg-surface
-              focus:px-4 focus:py-2 focus:font-mono focus:text-sm"
+              focus:px-4 focus:py-2 focus:text-sm"
           >
             Skip to content
           </a>

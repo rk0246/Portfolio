@@ -76,7 +76,7 @@ export default function PhotoFrame({ photo, priority = false, onOpen }) {
           <div
             className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-wrap gap-x-3
               bg-gradient-to-t from-black/70 via-black/35 to-transparent px-3 pb-2.5 pt-10
-              font-mono text-[11px] text-white opacity-0 transition-opacity duration-250
+              type-data text-white opacity-0 transition-opacity duration-250
               ease-[var(--ease-tile)] group-hover:opacity-100 group-focus-visible:opacity-100
               [@media(hover:none)]:opacity-100"
           >
@@ -90,9 +90,9 @@ export default function PhotoFrame({ photo, priority = false, onOpen }) {
       {/* Always rendered now: the Unsplash credit is not optional, so the
           caption block no longer depends on there being a caption or gear. */}
       <figcaption className="px-0.5 pt-2.5">
-        {photo.caption && <p className="text-sm">{photo.caption}</p>}
+        {photo.caption && <p className="type-meta text-text">{photo.caption}</p>}
         {gear.length > 0 && (
-          <p className="mt-1 font-mono text-[11px] leading-relaxed text-muted">
+          <p className="mt-1 type-data leading-[1.8]">
             {gear.join(" · ")}
           </p>
         )}
