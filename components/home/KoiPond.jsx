@@ -1373,12 +1373,26 @@ export function PondControls() {
       </span>
       <button
         type="button"
-        aria-pressed={on}
+        role="switch"
+        aria-checked={on}
         onClick={() => setRipples(!on)}
-        className="glass-pill cursor-pointer px-3 py-1.5 transition-colors hover:text-text
+        className="glass-pill flex cursor-pointer items-center gap-2 py-1.5 pr-1.5 pl-3
+          transition-colors hover:text-text
           focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red"
       >
-        Ripples {on ? "on" : "off"}
+        Ripples
+        {/* Track and thumb: red and slid right when on. */}
+        <span
+          aria-hidden="true"
+          className={`relative h-4 w-7 shrink-0 rounded-full transition-colors duration-200 ${
+            on ? "bg-red" : "bg-text/20"
+          }`}
+        >
+          <span
+            className={`absolute top-0.5 left-0.5 h-3 w-3 rounded-full bg-white shadow-sm
+              transition-transform duration-200 ease-[var(--ease-tile)] ${on ? "translate-x-3" : ""}`}
+          />
+        </span>
       </button>
     </div>
   );
