@@ -563,8 +563,11 @@ export default function KoiPond() {
         }
       }
       waterCtx.putImageData(waterImg, 0, 0);
+      // "medium" (bilinear), not "high": "high" is a bicubic resample of the
+      // whole viewport every frame, which alone held a 2x screen at ~30 fps.
+      // On this already-smooth image the two differ by at most 3/255.
       ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = "high";
+      ctx.imageSmoothingQuality = "medium";
       ctx.drawImage(waterCanvas, -cell, -cell, gw * cell, gh * cell);
     }
 
