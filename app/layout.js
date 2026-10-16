@@ -32,7 +32,6 @@ export const metadata = {
     default: `${site.name} — ${site.role}`,
     template: `%s — ${site.name}`,
   },
-  description: site.tagline,
 };
 
 export const viewport = {

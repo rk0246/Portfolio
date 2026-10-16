@@ -4,7 +4,6 @@ import { getPhotos } from "@/lib/unsplash";
 
 export const metadata = {
   title: "Photography",
-  description: "A selection of photographs, with the settings behind each one.",
 };
 
 /** Rebuild the page at most once an hour; see lib/unsplash.js for why the two

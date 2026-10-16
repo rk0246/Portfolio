@@ -2,16 +2,14 @@
  * Site-wide identity, read by the home page, /contact, and the layout metadata.
  *
  * `role` is interpolated into the default page title, so it shows up in every
- * browser tab and search result, not just the home page eyebrow.
+ * browser tab and search result.
  *
- * ⚠️ `tagline` is the one field still carrying scaffolding copy, and it is this
- * site's meta description — the sentence search engines print under the title.
+ * There is deliberately no meta description anywhere on the site, so link
+ * previews (Discord, iMessage, Slack, LinkedIn) show just the title.
  */
 export const site = {
   name: "Ryan Kim",
   role: "Business & AI, CMU",
-  tagline:
-    "I build software, shoot photos, and take apart anything with a circuit board in it.",
   location: "Pittsburgh, PA",
   email: "rkim0246@gmail.com",
   resumePdf: "/resume.pdf",

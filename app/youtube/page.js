@@ -9,7 +9,6 @@ export const revalidate = 3600;
 
 export const metadata = {
   title: "YouTube",
-  description: "Scenes from film and TV, recreated on a $3.01 budget.",
 };
 
 /**

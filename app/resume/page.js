@@ -10,7 +10,6 @@ import { site } from "@/data/site";
 
 export const metadata = {
   title: "Resume",
-  description: `Education, experience, projects, and skills for ${site.name}.`,
 };
 
 /** The 8px accent square where an entry meets the left rail — the only

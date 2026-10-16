@@ -3,7 +3,6 @@ import PageShell from "@/components/PageShell";
 
 export const metadata = {
   title: "Projects",
-  description: "A projects section that's still being put together.",
 };
 
 /* The grid, ProjectCard and data/projects.js are all still here and still

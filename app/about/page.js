@@ -4,13 +4,8 @@ import Highlights from "@/components/about/Highlights";
 import { about } from "@/data/about";
 import { highlights } from "@/data/highlights";
 
-/* Search results truncate around 160 characters, so the description leads with
-   the bio's opening sentence rather than the whole paragraph. */
-const [bioOpener] = about.bio.split(/(?<=\.)\s+/);
-
 export const metadata = {
   title: "About",
-  description: bioOpener,
 };
 
 /** Headings render without a trailing period, whatever the copy carries. */
