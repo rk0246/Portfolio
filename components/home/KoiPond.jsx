@@ -203,7 +203,7 @@ function subscribeRipples(onChange) {
 
 /* ---------- the hint's fun fact, shown once a visitor has played ---------- */
 
-/** Fired on every startle and food drop. */
+/** Fired on every food drop (right-click, or a touch long-press). */
 const KOI_EVENT = "portfolio:koi";
 const FACT_KEY = "koiFact";
 const FACT_EVENT = "portfolio:koiFact";
@@ -1201,7 +1201,6 @@ export default function KoiPond() {
     }
 
     function startle(x, y) {
-      window.dispatchEvent(new Event(KOI_EVENT));
       // Splash: a sharp dip with a broader lift around it.
       poke(x, y, -0.9, 7);
       poke(x, y, 0.25, 11);
@@ -1291,7 +1290,7 @@ export default function KoiPond() {
  * and the ripples switch. Both are hidden under reduced motion, where feeding
  * and water are off.
  *
- * Once the visitor first startles or feeds the koi, the hint fades over to a
+ * Once the visitor first feeds the koi, the hint fades over to a
  * fun fact, and stays that way on later visits.
  */
 export function PondControls() {
@@ -1301,7 +1300,7 @@ export function PondControls() {
   const pillRef = useRef(null);
   const fromWidth = useRef(0);
 
-  // First startle or feed: wait 1.2 s, fade the hint out (300 ms), swap in
+  // First feed: wait 1.2 s, fade the hint out (300 ms), swap in
   // the fact, fade back in. Reduced motion swaps instantly.
   useEffect(() => {
     if (fact) return;
