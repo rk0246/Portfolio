@@ -21,7 +21,7 @@ import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } fr
  *     pointer drags a wake through it, a click splashes, swimming koi stir it
  *   - click/tap startles every koi in range: a C-bend, then a fast flee that
  *     decays, and a few seconds of ignoring the cursor
- *   - right-click (or a touch long-press) scatters food; nearby koi crowd in
+ *   - right-click (or a two-finger tap) scatters food; nearby koi crowd in
  *     and eat it
  *   - reduced motion: koi drift at ~15% speed, no water or reactions
  */
@@ -161,7 +161,7 @@ const WATER_NEIGHBOUR = 0.055;
 /** Slope-to-shade gain (the dead zone and the rest are per theme). */
 const WATER_K = 6;
 
-/** Right-clicks (or long-presses) on these keep their normal behaviour. */
+/** Right-clicks (and touches) on these keep their normal behaviour. */
 const NATIVE_TARGETS = "a, button, nav, input, textarea, [contenteditable], .glass, .glass-pill";
 const PELLET_MAX = 45;
 const PELLET_LIFE = 26; // s after landing
@@ -205,7 +205,7 @@ function subscribeRipples(onChange) {
 
 /* ---------- the hint's fun fact, shown once a visitor has played ---------- */
 
-/** Fired on every food drop (right-click, or a touch long-press). */
+/** Fired on every food drop (right-click, or a two-finger tap). */
 const KOI_EVENT = "portfolio:koi";
 const FACT_KEY = "koiFact";
 const FACT_EVENT = "portfolio:koiFact";
@@ -312,7 +312,7 @@ export default function KoiPond() {
     let lastMoveT = 0;
     let pointerSpeed = 0; // smoothed, px/s
     let skittishUntil = 0;
-    let press = null; // a touch that may become a tap (startle) or a long-press (food)
+    let press = null; // a touch that may become a tap (startle) or a two-finger tap (food)
 
     // Food pellets. `age` is seconds since landing (negative while in the
     // air); `eaten` is seconds since a koi took it (-1 = not yet).
@@ -1118,9 +1118,10 @@ export default function KoiPond() {
     /* ----- input ----- */
 
     function onMove(e) {
-      // A touch that wanders more than 10px isn't a long-press: it's a tap.
+      // A first finger that wanders more than 10px won't become a two-finger
+      // tap: startle now.
       if (press && e.pointerId === press.id) {
-        if (Math.hypot(e.clientX - press.x, e.clientY - press.y) > 10) endPress(true);
+        if (Math.hypot(e.clientX - press.x, e.clientY - press.y) > 10) tapIfPending();
       }
       if (reduced || e.pointerType === "touch" || !hoverMQ.matches) return;
       const x = e.clientX;
@@ -1161,20 +1162,20 @@ export default function KoiPond() {
       if (reduced) return;
       const x = e.clientX;
       const y = e.clientY;
-      // Touch on open water: wait to see if it's a tap (startle on release)
-      // or a 500 ms hold (food).
+      // Touch: one finger is a tap (startle on release); a second finger
+      // landing while the first is still down is a two-finger tap, which
+      // drops food between the two and cancels the startle.
       if (e.pointerType === "touch") {
-        endPress(false);
+        if (press) {
+          press.ids.add(e.pointerId);
+          if (!press.done) {
+            press.done = true;
+            dropFood((press.x + x) / 2, (press.y + y) / 2);
+          }
+          return;
+        }
         if (e.target.closest?.(NATIVE_TARGETS)) return startle(x, y);
-        press = {
-          id: e.pointerId,
-          x,
-          y,
-          timer: setTimeout(() => {
-            press = null;
-            dropFood(x, y);
-          }, 500),
-        };
+        press = { id: e.pointerId, x, y, ids: new Set([e.pointerId]), done: false };
         return;
       }
       // Right (or ctrl-) click is for feeding, below.
@@ -1182,22 +1183,25 @@ export default function KoiPond() {
       startle(x, y);
     }
 
+    /** A finger lifting (or the browser taking over the touch): a lone
+        finger that hasn't fed is a tap. The press ends once all are up. */
     function onUp(e) {
-      if (press && e.pointerId === press.id) endPress(true);
+      if (!press || !press.ids.has(e.pointerId)) return;
+      tapIfPending();
+      press.ids.delete(e.pointerId);
+      if (press.ids.size === 0) press = null;
     }
 
-    /** Finish a pending touch, startling at its start point if it was a tap. */
-    function endPress(asTap) {
-      if (!press) return;
-      clearTimeout(press.timer);
-      if (asTap) startle(press.x, press.y);
-      press = null;
+    function tapIfPending() {
+      if (press.done) return;
+      press.done = true;
+      startle(press.x, press.y);
     }
 
     function onContextMenu(e) {
       if (reduced || e.target.closest?.(NATIVE_TARGETS)) return;
       e.preventDefault();
-      // A touch long-press also fires this; the press timer handles that one.
+      // A touch long-press can fire this too; on touch, food is a two-finger tap.
       if (press || e.pointerType === "touch") return;
       dropFood(e.clientX, e.clientY);
     }
@@ -1274,7 +1278,7 @@ export default function KoiPond() {
       window.removeEventListener("pointercancel", onUp);
       window.removeEventListener("contextmenu", onContextMenu);
       document.removeEventListener("visibilitychange", onVisibility);
-      endPress(false);
+      press = null;
       reduceMQ.removeEventListener("change", onWaterChange);
       unsubscribeRipples();
     };
@@ -1369,7 +1373,7 @@ export function PondControls() {
           ) : (
             <>
               <span className="[@media(hover:none)]:hidden">Right-click to feed</span>
-              <span className="[@media(hover:hover)]:hidden">Hold to feed</span>
+              <span className="[@media(hover:hover)]:hidden">Tap with two fingers to feed</span>
             </>
           )}
         </span>

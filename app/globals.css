@@ -198,14 +198,16 @@ html[data-theme="dark"] {
    screen as well as in layout (a rotation used to shift the lower line
    sideways), and the grid squares stay square.
 
-   Below md none of it applies — the plane is a plain padded stack and the grid
+   Below md none of it applies — the plane just centres the name and the grid
    is hidden (there is no hover on touch).
 --------------------------------------------------------------------------- */
+/* Phones: just the name, centred on the screen. */
 .iso-plane {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 3.5rem 1.25rem 7rem;
+  min-height: 100dvh;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
 }
 
 @media (min-width: 768px) {
@@ -220,6 +222,7 @@ html[data-theme="dark"] {
   .iso-plane {
     pointer-events: none;
     display: block;
+    min-height: 0;
     padding: 0;
     position: absolute;
     top: 50%;

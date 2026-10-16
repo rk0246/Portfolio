@@ -17,13 +17,10 @@ export default function HomePage() {
       <IsoStage>
         {/* The only thing on the plane. Navigation lives entirely in the dock. */}
         <div className="iso-name">
-          <p className="type-eyebrow md:hidden">
-            {site.role} · {site.location}
-          </p>
           <h1
             aria-label={site.name}
-            className="mt-4 type-display text-[clamp(2.6rem,9vw,7.8rem)] uppercase leading-[1.1538]
-              tracking-[0.06em] md:mt-0 md:text-center"
+            className="type-display text-center text-[clamp(2.6rem,9vw,7.8rem)] uppercase
+              leading-[1.1538] tracking-[0.06em]"
           >
             {/* Blocks rather than a wrapped line, so the shorter name centres
                 under the longer one. */}
@@ -38,9 +35,6 @@ export default function HomePage() {
               )}
             </Link>
           </h1>
-          <p className="mt-5 max-w-xl type-body text-muted md:hidden">
-            {site.tagline}
-          </p>
         </div>
       </IsoStage>
 

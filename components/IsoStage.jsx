@@ -6,7 +6,7 @@ import PointerParallax from "./PointerParallax";
  * cursor (PointerParallax). The koi pond (components/home/KoiPond.jsx) is a
  * fixed canvas behind it; this sits above it (relative z-[1]) at every width.
  *
- * Below md the plane is a plain padded stack.
+ * Below md the plane just centres the name on the screen.
  */
 export default function IsoStage({ children }) {
   return (
