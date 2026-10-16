@@ -167,7 +167,9 @@ const PELLET_MAX = 45;
 const PELLET_LIFE = 26; // s after landing
 const PELLET_EAT = 0.14; // s to shrink away once eaten
 
-/* ---------- ripples on/off, remembered in localStorage ---------- */
+/* ---------- ripples on/off, remembered in localStorage ----------
+   The switch covers the visitor's own ripples: the cursor's wake, the click
+   splash and food landing. The koi's wakes always show. Off by default. */
 
 const RIPPLES_KEY = "ripples";
 const RIPPLES_EVENT = "portfolio:ripples";
@@ -175,9 +177,9 @@ let ripplesMemo = null; // fallback when storage is blocked
 
 function readRipples() {
   try {
-    return localStorage.getItem(RIPPLES_KEY) !== "off";
+    return localStorage.getItem(RIPPLES_KEY) === "on";
   } catch {
-    return ripplesMemo ?? true;
+    return ripplesMemo ?? false;
   }
 }
 
@@ -292,8 +294,8 @@ export default function KoiPond() {
     const hoverMQ = window.matchMedia("(hover: hover)");
 
     let reduced = reduceMQ.matches;
-    let ripples = readRipples();
-    const waterOn = () => !reduced && ripples;
+    let ripples = readRipples(); // the visitor's own ripples; the koi's always run
+    const waterOn = () => !reduced;
     let theme = THEMES.light;
     let bg = null;
 
@@ -602,7 +604,7 @@ export default function KoiPond() {
         const was = p.age;
         p.age += dt;
         if (p.age < 0) continue; // still in the air
-        if (was < 0) poke(p.x, p.y, -0.22, 3.2);
+        if (was < 0 && ripples) poke(p.x, p.y, -0.22, 3.2);
         p.vx *= drag;
         p.vy *= drag;
         p.x += p.vx * dt;
@@ -1144,7 +1146,7 @@ export default function KoiPond() {
       // never more than 260px per event so a jumping pointer can't draw a
       // streak across the pond.
       const k = Math.min(1, pointerSpeed / 1100);
-      if (k <= 0.02 || dist === 0) return;
+      if (!ripples || k <= 0.02 || dist === 0) return;
       const span = Math.min(dist, 260);
       const ux = (x - fromX) / dist;
       const uy = (y - fromY) / dist;
@@ -1202,8 +1204,10 @@ export default function KoiPond() {
 
     function startle(x, y) {
       // Splash: a sharp dip with a broader lift around it.
-      poke(x, y, -0.9, 7);
-      poke(x, y, 0.25, 11);
+      if (ripples) {
+        poke(x, y, -0.9, 7);
+        poke(x, y, 0.25, 11);
+      }
       skittishUntil = performance.now() + 3800;
       for (const k of koi) {
         const d = Math.hypot(k.spine[0] - x, k.spine[1] - y);
@@ -1216,7 +1220,7 @@ export default function KoiPond() {
     }
 
     const onVisibility = () => (document.hidden ? stop() : start());
-    // Turning the water off flattens it, so it comes back calm.
+    // Reduced motion flattens the water, so it comes back calm.
     const onWaterChange = () => {
       reduced = reduceMQ.matches;
       ripples = readRipples();
@@ -1294,7 +1298,7 @@ export default function KoiPond() {
  * fun fact, and stays that way on later visits.
  */
 export function PondControls() {
-  const on = useSyncExternalStore(subscribeRipples, readRipples, () => true);
+  const on = useSyncExternalStore(subscribeRipples, readRipples, () => false);
   const fact = useSyncExternalStore(subscribeFact, readFact, () => false);
   const [fading, setFading] = useState(false);
   const pillRef = useRef(null);
