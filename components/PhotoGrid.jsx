@@ -41,8 +41,21 @@ export default function PhotoGrid({ photos }) {
     return <p className="type-meta">No photos yet.</p>;
   }
 
+  // No right-click "Save image", drag-to-desktop, or iOS long-press save on the
+  // photos (grid and lightbox both render inside this div), so the lightbox's
+  // Download button is the way to get a file. Only images: right-click on the
+  // chips or caption text still works.
+  // ponytail: a deterrent, not protection — devtools and screenshots still work.
+  const blockOnImage = (e) => {
+    if (e.target.closest("img")) e.preventDefault();
+  };
+
   return (
-    <>
+    <div
+      onContextMenu={blockOnImage}
+      onDragStart={blockOnImage}
+      className="[&_img]:select-none [&_img]:[-webkit-touch-callout:none]"
+    >
       {locations.length > 1 && (
         <div role="group" aria-label="Filter photos by location" className="mb-7 flex flex-wrap gap-2">
           <Chip
@@ -92,7 +105,7 @@ export default function PhotoGrid({ photos }) {
         Showing {shown.length} {shown.length === 1 ? "photo" : "photos"}
         {activeName ? ` from ${activeName}` : " from all locations"}
       </p>
-    </>
+    </div>
   );
 }
 

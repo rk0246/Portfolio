@@ -11,7 +11,11 @@
 export const about = {
   eyebrow: "ABOUT",
   heading: "Ryan Kim",
-  bio: "Hi! I'm from Los Angeles, and I'm currently a junior at Carnegie Mellon University's Tepper School of Business, studying Business Administration with a concentration in AI and a minor in Information Systems. Lately, I've been drawn toward entrepreneurship and sports and entertainment management, with a particular interest in building things and understanding how to get people together in real life using digital means.",
+  /* One string per paragraph. */
+  bio: [
+    "I'm a business student at Carnegie Mellon from Los Angeles, studying AI and Information Systems, drawn to the space where product, data, and storytelling meet. Whether I'm leading a product team, running a marketing campaign, or growing my YouTube channel, I care about building things people actually use and enjoy!",
+    "Outside of work, I play golf, soccer, and baseball, and I'm into photography and cardistry. Feel free to look at my highlights below!",
+  ],
   /* Path is relative to /public. Swap the file or change this string to
      change the headshot; `portraitAlt` is what screen readers announce.
      The dimensions must match the file's real pixel size — the page renders

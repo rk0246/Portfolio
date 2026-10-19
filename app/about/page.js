@@ -17,9 +17,11 @@ export default function AboutPage() {
       {/* Bio and portrait. The prose column is capped near 62ch regardless of
           how wide the shell gets — a full-width paragraph is unreadable. */}
       <div className="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_13rem] md:gap-14">
-        <p className="max-w-[62ch] type-lead">
-          {about.bio}
-        </p>
+        <div className="max-w-[62ch] space-y-5 type-lead">
+          {about.bio.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
 
         {/* Portrait slot. Fixed 13rem width, independent of the bio's height.
             The square crop is what keeps this row short: the source is 3:4, so

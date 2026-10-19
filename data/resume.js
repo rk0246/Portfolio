@@ -18,26 +18,20 @@ export const education = [
   {
     school: "Carnegie Mellon University",
     location: "Pittsburgh, PA",
-    degree:
-      "B.S. Business Administration — Concentration in AI, Minor in Information Systems",
-    dates: "August 2024 — December 2027",
-    honors: ["GPA 4.0", "Dean's List 2024, 2025"],
+    degree: "B.S. Business Administration — Minor in Information Systems",
+    dates: "Expected December 2027",
+    honors: ["GPA 4.0"],
     coursework: [
       "Machine Learning for Business Analytics",
       "Database Design & Development",
       "Finance",
-      "Business Computing (Excel + MIS)",
     ],
   },
   {
     school: "Los Osos High School",
     location: "Rancho Cucamonga, CA",
     dates: "August 2020 — May 2024",
-    honors: [
-      "GPA 4.0 (UW) / 4.75 (W)",
-      "1550 SAT",
-      "Superintendent's Honor Roll",
-    ],
+    honors: ["GPA 4.0 (UW) / 4.75 (W)", "1550 SAT"],
   },
 ];
 
@@ -53,14 +47,15 @@ export const experience = [
     tags: ["Data Labeling", "Model Evaluation", "Image Generation"],
   },
   {
-    role: "Head of Tech X Product Committee",
+    role: "Tech X Product Manager",
     company: "ScottyLabs",
     dates: "June 2025 — Present",
     impact: [
-      "Serving as Product Lead for a developer team building hackathon management software.",
-      "Identifying and implementing key features through market research, user testing, and competitive analysis with PostHog.",
+      "Serving as Product Manager for a developer team building standardized hackathon management software.",
+      "Identifying and implementing key features through market research, user testing, and competitor analysis.",
+      "Collaborating closely with developers to define product requirements, prioritize tasks, and ensure timely delivery.",
     ],
-    tags: ["Product Lead", "Market Research", "User Testing", "PostHog"],
+    tags: ["Product Management", "Market Research", "User Testing", "PostHog"],
   },
   {
     role: "Marketing Intern",
@@ -69,11 +64,12 @@ export const experience = [
     impact: [
       "Created and managed social media content for a quantitative copy trading platform.",
       "Developed campaigns that improved user engagement and brand visibility.",
+      "Gained hands-on knowledge of investing principles and financial markets.",
     ],
     tags: ["Social Media", "Content", "Campaigns"],
   },
   {
-    role: "VP of Marketing, Consultant",
+    role: "Consulting Member, VP of Marketing",
     company: "Tartan Marketing Association",
     dates: "January 2025 — Present",
     impact: [
@@ -120,7 +116,7 @@ export const projectsAndAwards = [
   },
   {
     title: "YouTube + Freelance Creator",
-    dates: "2020 — Present",
+    dates: "August 2023 — Present",
     impact: [
       "Built and scaled a YouTube channel to 20K+ subscribers and 4M+ views through a data-driven content strategy.",
       "Delivered paid photography and videography projects for startups, organizations, and local businesses, including a Y Combinator startup.",
