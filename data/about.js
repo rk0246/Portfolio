@@ -21,10 +21,10 @@ export const about = {
      The dimensions must match the file's real pixel size — the page renders
      at a fixed width and derives the height from this ratio, so a wrong pair
      here shows up as a stretched photo. */
-  portrait: "/images/portrait.png",
+  portrait: "/images/portrait.webp",
   portraitAlt: "Ryan Kim",
-  portraitWidth: 1086,
-  portraitHeight: 1448,
+  portraitWidth: 520,
+  portraitHeight: 693,
   /* Entries for the Highlights timeline live in data/highlights.js. */
   highlightsLabel: "HIGHLIGHTS",
   /* The tiles under it live in data/interests.js. */

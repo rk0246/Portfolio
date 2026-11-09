@@ -3,36 +3,28 @@
 A tilted grid canvas for a home page — sweep across it and scattered squares light
 up — plus a persistent dock and a dedicated page per section. All 2D: no CSS 3D
 anywhere.
-Next.js App Router · Tailwind CSS v4 · Framer Motion.
+SvelteKit 2 (Svelte 5) · TanStack Query · Tailwind CSS v4 · Vite.
 
 ```bash
 npm run dev     # http://localhost:3000
 npm run build   # production build
-npm run lint
+npm run check    # svelte-check
 ```
 
 ## Where things live
 
 ```
-app/
-  layout.js        fonts, theme boot script, <Dock /> on every page
-  page.js          home — the isometric canvas
-  about|resume|photography|youtube|projects|contact/page.js
-components/
-  Dock.jsx         the one nav; reads data/nav.js
-  DockIcon.jsx     one destination + active dot
-  IsoStage.jsx     the canvas plane and its hoverable grid
-  Hud.jsx          corner readouts: clock, viewport size, visitor timezone
-  PageShell.jsx    shared kicker/title/lede for the six section pages
-  ProjectCard.jsx  PhotoFrame.jsx  VideoEmbed.jsx  Icon.jsx
-  Preferences.jsx  theme state, MotionConfig
-data/
-  nav.js           ← the seven sections the dock is built from.
-  site.js resume.js projects.js youtube.js
-lib/
-  unsplash.js      photography: fetches + normalises the Unsplash API
-public/
-  resume.pdf  images/{portrait,photos,projects}
+src/
+  app.html              theme boot script, icons, theme-color
+  app.css               design tokens + all custom CSS
+  routes/+layout.svelte fonts, page transition, <Dock /> on every page
+  routes/+page.svelte   home — the koi pond and the name
+  routes/<section>/     one folder per page; photography + youtube have +page.server.js
+  routes/api/unsplash/download/[id]/+server.js   download-tracking proxy
+  lib/components/       Dock, PageShell, PhotoGrid, Lightbox, home/pond.js (the koi sim) …
+  lib/server/           unsplash.js, youtube.js, cache.js — server-only (holds API keys)
+data/                   site content, imported as $data/… (alias in svelte.config.js)
+static/                 resume.pdf, images, about/ media
 ```
 
 ## Replacing the placeholder content
@@ -44,10 +36,10 @@ Everything shipped is a placeholder, marked with `⚠️ PLACEHOLDER` in each da
 | **Your name** (the big type on home) | `data/site.js` → `name` |
 | Bio, portrait, hobby blurbs | `data/site.js` → `about` |
 | Roles, dates, impact, skills | `data/resume.js` |
-| Résumé PDF | replace `public/resume.pdf` |
+| Résumé PDF | replace `static/resume.pdf` |
 | Photos + EXIF + captions | the Unsplash account — see [Photography](#photography) |
 | Channel, featured + recent video IDs | `data/youtube.js` |
-| Projects | `data/projects.js`, thumbs in `public/images/projects/` |
+| Projects | `data/projects.js`, thumbs in `static/images/projects/` |
 | Email, socials, location | `data/site.js` |
 
 The bottom-right HUD readout shows the visitor's own timezone, which the browser
@@ -64,7 +56,7 @@ cp .env.example .env.local   # then paste your key from
                              # https://unsplash.com/oauth/applications
 ```
 
-`UNSPLASH_ACCESS_KEY` is read server-side only, in `lib/unsplash.js`. Without
+`UNSPLASH_ACCESS_KEY` is read server-side only, in `src/lib/server/unsplash.js`. Without
 it the page renders a short notice instead of failing the build.
 
 ### It costs two kinds of request
@@ -82,14 +74,17 @@ The two calls cache on different clocks so this stays cheap:
 | the photo list | 1 hour | new uploads should appear the same day |
 | each photo's detail | 24 hours | a published photo's EXIF never changes |
 
+The page itself is ISR-cached on Vercel for an hour (`config.isr` in
+`+page.server.js`). The per-request TTLs live in `src/lib/server/cache.js`, which
+is in-memory per server instance — a cold instance pays the full cost again.
+
 A cold render of a 100-photo account costs about **104 requests** (4 list pages +
 100 details). After that, an hourly revalidation costs only the 4 list pages.
 
 **This matters because of rate limits.** An Unsplash app in Demo mode is capped
 at **50 requests/hour**, which cannot serve that first render — expect a partial
-grid until it is approved for Production (1000/hour). Note also that in
-development Next re-renders pages on every request, so a cold cache plus a few
-refreshes can exhaust a demo key quickly.
+grid until it is approved for Production (1000/hour). In development the in-memory cache
+survives until the dev server restarts.
 
 ### Locations
 
@@ -101,19 +96,16 @@ appear under "All" but get no chip, so tagging happens on unsplash.com.
 
 Unsplash's API Guidelines require attributing the photographer and Unsplash, and
 require that the `urls.*` the API returns are hotlinked rather than copied — the
-latter is why `next.config.mjs` allows `images.unsplash.com` as a remote pattern
-rather than the photos being downloaded into `public/`.
+latter is why photos load straight from `images.unsplash.com` rather than being
+downloaded into `static/`.
 
-Adding a section: one entry in `data/nav.js` plus `app/<route>/page.js`. The dock
+Adding a section: one entry in `data/nav.js` plus `src/routes/<route>/+page.svelte`. The dock
 picks it up automatically.
-
-Once real photos replace the SVG placeholders, delete the `images` block in
-`next.config.mjs` — it only exists because `next/image` won't optimize SVG without it.
 
 ## Design tokens
 
 Tailwind v4 has no `tailwind.config.js`; the theme is CSS-native. Tokens live in
-the `@theme` block at the top of `app/globals.css` and become utilities
+the `@theme` block at the top of `src/app.css` and become utilities
 (`--color-orange` → `text-orange` / `bg-orange`, `--font-display` → `font-display`).
 Dark mode re-points the same variables under `html[data-theme="dark"]`, so there is
 one set of utilities and no `dark:` variants anywhere.
@@ -185,13 +177,13 @@ Tuning knobs:
 
 | What | Where |
 |---|---|
-| Tilt and foreshortening (`--iso-rz`, `--iso-squash`, `--iso-scale`) | `.iso-plane` in `app/globals.css` — neutralise to `0deg` / `1` for a straight-on grid |
+| Tilt and foreshortening (`--iso-rz`, `--iso-squash`, `--iso-scale`) | `.iso-plane` in `src/app.css` — neutralise to `0deg` / `1` for a straight-on grid |
 | How many squares react | `LIVE_RATE` in `components/IsoStage.jsx` |
 | Plane size, grid patch size, square size | `PLANE`, `GRID`, `CELL` in `data/nav.js` |
 | How far the grid patch fades out | the `mask-image` radial-gradient on `.iso-grid` |
-| Trail colour, speed and fade | `.iso-cell` / `.iso-cell.is-live:hover` in `app/globals.css` |
+| Trail colour, speed and fade | `.iso-cell` / `.iso-cell.is-live:hover` in `src/app.css` |
 | Cursor drift distance and glide rate | `MAX_X`, `MAX_Y`, `EASE` in `components/PointerParallax.jsx` |
-| Name size and letter spacing | the `md:text-[10.5rem]` / `md:tracking-[0.13em]` on the `<h1>` in `app/page.js` |
+| Name size and letter spacing | the `md:text-[10.5rem]` / `md:tracking-[0.13em]` on the `<h1>` in `src/routes/+page.svelte` |
 
 Keep `GRID.w` and `GRID.h` whole multiples of `CELL` so the patch divides evenly.
 
@@ -208,7 +200,7 @@ Keep `GRID.w` and `GRID.h` whole multiples of `CELL` so the patch divides evenly
   re-centres when the pointer leaves the window.
 - `prefers-reduced-motion` keeps the plane's static attitude but drops every
   transition and pointer-driven movement; colour still changes on hover.
-  `MotionConfig reducedMotion="user"` covers the Framer Motion pieces.
+  The reduced-motion block in `src/app.css` also shortens Svelte's transitions.
 - Focus-visible rings in orange sitewide, skip link, `aria-current="page"` on the
   active dock item, labelled icon buttons.
 - YouTube embeds are click-to-load facades — nothing from youtube.com is requested

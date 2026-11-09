@@ -29,7 +29,7 @@ import sharp from "sharp";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const SRC = path.join(ROOT, "photos-src");
-const OUT = path.join(ROOT, "public", "images", "photos");
+const OUT = path.join(ROOT, "static", "images", "photos");
 const DATA = path.join(ROOT, "data", "photos.js");
 
 /** Longest edge, in px, of the file that gets committed. next/image serves

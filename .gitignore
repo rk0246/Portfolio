@@ -13,9 +13,9 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
+# sveltekit
+/.svelte-kit/
+
 
 # production
 /build
@@ -40,9 +40,9 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 
-# photo originals — web-sized copies in public/images/photos are what ships
+
+# photo originals — web-sized copies in static/images/photos are what ships
 /photos-src
 
 # local Claude Code permissions — machine-specific, not for a public repo
