@@ -59,7 +59,6 @@
 <svelte:head><title>{`Resume — ${site.name}`}</title></svelte:head>
 
 <PageShell
-  kicker="Resume"
   title="Work"
   lede={[
     "Studying Business Administration and AI at Carnegie Mellon, with experience spanning product, marketing, and data.",

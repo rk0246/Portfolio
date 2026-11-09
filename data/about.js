@@ -9,7 +9,6 @@
  * write them with or without one — the page strips it.
  */
 export const about = {
-  eyebrow: "ABOUT",
   heading: "Ryan Kim",
   /* One string per paragraph. */
   bio: [

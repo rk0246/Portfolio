@@ -10,7 +10,6 @@
 
 <PageShell
   wide
-  kicker="Photography"
   title="Photos"
   lede={[
     "Shot mainly on a Sony a7 IV + 24-105mm f/4, 35mm f/1.8, 20mm f/1.8, 70-200mm f/2.8, and a Helios 44m-4.",

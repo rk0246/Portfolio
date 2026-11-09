@@ -36,7 +36,6 @@
 
 <PageShell
   wide
-  kicker="YouTube"
   title="Video"
   lede="Shot-for-shot recreations of scenes from shows and movies on a $3.01 budget. Plus the occasional original short film whenever I feel inspired!"
 >

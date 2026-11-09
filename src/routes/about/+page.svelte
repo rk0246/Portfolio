@@ -11,7 +11,7 @@
 
 <svelte:head><title>{`About — ${site.name}`}</title></svelte:head>
 
-<PageShell tight wide kicker={about.eyebrow} title={stem(about.heading)}>
+<PageShell tight wide title={stem(about.heading)}>
   <!-- Bio and portrait. The prose column is capped near 62ch regardless of how
        wide the shell gets — a full-width paragraph is unreadable. -->
   <div class="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_13rem] md:gap-14">

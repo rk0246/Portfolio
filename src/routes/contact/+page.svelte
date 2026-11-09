@@ -8,7 +8,6 @@
 <svelte:head><title>{`Contact — ${site.name}`}</title></svelte:head>
 
 <PageShell
-  kicker="Contact"
   title="Say hi"
   lede="Feel free to reach out by email, or connect with me on LinkedIn!"
 >

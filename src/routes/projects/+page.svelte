@@ -13,7 +13,7 @@
 
 <svelte:head><title>{`Projects — ${site.name}`}</title></svelte:head>
 
-<PageShell kicker="In progress" title="Projects" lede="">
+<PageShell title="Projects" lede="">
   <div class="rounded-2xl border border-dashed border-border px-6 py-14 text-center sm:py-20">
     <p class="type-eyebrow">Coming soon</p>
     <h2 class="mx-auto mt-4 max-w-md type-title">A few things are still in progress.</h2>
